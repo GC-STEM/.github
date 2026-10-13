@@ -147,7 +147,7 @@ Detailed writing, formatting, and accessibility standards are provided on the co
 * Link to authoritative sources when possible.
 * Do not submit copyrighted, licensed, or proprietary content unless its use is authorized.
 * Do not assume that publicly available content is free to copy or modify.
-* Review [LICENSE](../LICENSE) for the repository’s current licensing notice.
+* Review [LICENSE](LICENSE) for the repository’s current licensing notice.
 
 ## What Not to Submit
 
@@ -245,7 +245,7 @@ Changes that affect learning outcomes, competencies, assignment requirements, gr
 * [SUPPORT.md](SUPPORT.md)
 * [SECURITY.md](SECURITY.md)
 * [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-* [LICENSE](../LICENSE)
+* [LICENSE](LICENSE)
 * The applicable repository `README.md`
 * The current task instructions and **Guidelines and Rubric** in D2L Brightspace
 * Applicable institutional academic-integrity, accessibility, privacy, security, acceptable-use, intellectual-property, and student-conduct policies
