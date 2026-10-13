@@ -1,11 +1,11 @@
 {
   "required_files": [
     "README.md",
-    ".github/ACCESSIBILITY.md",
-    ".github/CODE_OF_CONDUCT.md",
-    ".github/CONTRIBUTING.md",
-    ".github/SECURITY.md",
-    ".github/SUPPORT.md",
+    "ACCESSIBILITY.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "SUPPORT.md",
     ".github/CODEOWNERS",
     ".github/CHANGELOG.md",
     ".github/pull_request_template.md",
@@ -18,12 +18,12 @@
     ".github/ci/check_links.py",
     ".github/ci/lychee.toml",
     ".github/ci/test_ci.py",
+    ".github/ci/README.md",
     ".github/workflows/tests.yml",
     ".github/workflows/readme-commands.yml",
     ".github/workflows/internal-links.yml",
     ".github/workflows/external-links.yml",
-    "profile/README.md",
-    ".github/ci/README.md"
+    "profile/README.md"
   ],
   "check_eol": false
 }
