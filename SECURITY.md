@@ -1,190 +1,131 @@
-# Security Policy
+# Security and Privacy Reporting
 
-This policy explains how to report security vulnerabilities or sensitive-information exposures related to this repository. It is intended to support responsible reporting while protecting students, faculty, staff, maintainers, institutional systems, and the broader GitHub community.
+Report suspected security weaknesses or exposed private information
+through an appropriate private channel.
 
-Do not report security vulnerabilities, exposed credentials, or sensitive information through a public issue, discussion, pull request, commit, or comment.
+You do not need to prove that a weakness can be exploited before
+reporting what you noticed.
+
+Do not post vulnerability details, passwords, access tokens, student
+records, or other sensitive information in an issue, discussion,
+pull request, commit, or public comment.
 
 ## Table of Contents <!-- omit from toc -->
 
-1. [Supported Versions](#supported-versions)
-2. [Security Issues Covered by This Policy](#security-issues-covered-by-this-policy)
-3. [Issues Not Covered by This Policy](#issues-not-covered-by-this-policy)
-4. [Reporting a Vulnerability](#reporting-a-vulnerability)
-5. [Information to Include](#information-to-include)
-6. [Handling of Reports](#handling-of-reports)
-7. [Responsible Testing](#responsible-testing)
-8. [Exposed Credentials and Sensitive Information](#exposed-credentials-and-sensitive-information)
-9. [Coordinated Disclosure](#coordinated-disclosure)
-10. [Academic and Institutional Requirements](#academic-and-institutional-requirements)
-11. [Provisional Status](#provisional-status)
-12. [References](#references)
+1. [Report Privately](#report-privately)
+2. [What to Report](#what-to-report)
+3. [Helpful Details](#helpful-details)
+4. [If a Credential Is Exposed](#if-a-credential-is-exposed)
+5. [Testing Boundaries](#testing-boundaries)
+6. [Report Handling and Supported Versions](#report-handling-and-supported-versions)
+7. [Status](#status)
 
-## Supported Versions
+## Report Privately
 
-Security corrections are generally applied only to the current version of the authoritative repository.
+Use the option that is available to you:
 
-| Repository version | Support status |
-| ------------------ | -------------- |
-| Default branch and current release | Supported |
-| Earlier releases or inactive branches | Best effort |
-| Archived versions | Not supported |
-| Forks, student repositories, and personal copies | Not directly supported by the upstream maintainers |
+- **GitHub private reporting:** In the affected repository's
+  Security or Security and quality area, select
+  **Report a vulnerability**, if available.
+- **Students:** Contact your instructor through the private
+  communication method listed in Brightspace.
+- **SNHU technology or information exposure:** Use the
+  [SNHU Technology Help Desk](https://snhu.service-now.com/sp)
+  and applicable institutional incident-reporting procedures.
+  SNHU sign-in is required.
+- **Other reporters:** Use the approved private security contact
+  listed in the affected repository's README.
 
-If a vulnerability found in a copy or fork originated in the authoritative repository, report it to the maintainers of the authoritative repository.
+If no private contact is listed, ask maintainers how to contact
+them privately without including vulnerability details.
 
-## Security Issues Covered by This Policy
+GitHub's private reporting feature is not available in every
+repository. Do not substitute a public report containing sensitive
+details.
 
-Examples of appropriate security reports include:
+## What to Report
 
-* Exposed passwords, access tokens, private keys, or other credentials
-* Vulnerable repository scripts, applications, or configuration files
-* GitHub Actions workflows with unsafe permissions or injection risks
-* Dependencies with a vulnerability that affects repository functionality
-* Instructions or automation that could expose personal, academic, or institutional information
-* Unauthorized access to protected files, systems, or repository functions
-* Unintended disclosure of nonpublic course, assessment, or student information
-* Code that permits unintended command execution, privilege escalation, or data access
-* Security controls that can be bypassed in a manner that creates a meaningful risk
+Examples include:
 
-A security weakness in an assignment, assessment, or automated test should be reported privately if public disclosure could expose answers, undermine an assessment, or enable academic misconduct.
+- Exposed passwords, access tokens, keys, or student information
+- Scripts, dependencies, or workflows that could allow unintended
+  access, commands, or data disclosure
+- Instructions that could expose private information
+- Unauthorized access to protected repository resources
+- Assessment weaknesses that could expose restricted answers or
+  enable academic misconduct
 
-## Issues Not Covered by This Policy
+For ordinary installation problems, broken links, or suggested
+improvements, use
+[Support](https://github.com/GC-STEM/.github/blob/main/SUPPORT.md).
 
-Use the repository’s ordinary support channels for:
+If you are unsure whether a concern involves security or privacy,
+describe it through a private channel first.
 
-* General questions about a course, assignment, or repository
-* Installation, configuration, or troubleshooting assistance
-* Broken links, typographical errors, or ordinary software defects
-* Feature requests or suggested improvements
-* Academic-integrity or conduct concerns
-* Problems limited to a separately maintained third-party product or service
+## Helpful Details
 
-Repository support options are described in [SUPPORT.md](SUPPORT.md). Conduct concerns are addressed in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Include what you know:
 
-Vulnerabilities in GitHub itself should be reported through GitHub’s designated security-reporting process rather than to this repository.
+- The affected repository, file, workflow, or version
+- What you noticed and why it concerns you
+- When you noticed it
+- Safe steps that explain the problem, if already known
+- Whether the information has been shared elsewhere
 
-## Reporting a Vulnerability
+Identify the location of exposed information without copying the
+secret or private record into the report.
 
-### Preferred Method
+A demonstration is optional. Use invented, non-sensitive data and
+remain within any testing authorization you already have.
 
-If private vulnerability reporting is enabled for this repository:
+## If a Credential Is Exposed
 
-1. Open the repository’s **Security** or **Security and quality** area.
-2. Select **Advisories**.
-3. Select **Report a vulnerability**.
-4. Complete the private report.
+Do not use or test another person's credential.
 
-This method creates a private communication space where the reporter and repository maintainers can discuss the issue without exposing it publicly.
+If an exposed password, token, or key belongs to you, invalidate it
+promptly using the issuing service's process. Replace it if needed,
+and report the exposure privately.
 
-### Alternative Method
+Deleting the visible text alone is not sufficient. Copies may
+remain in repository history, logs, or other locations.
 
-If private vulnerability reporting is unavailable, use an approved private institutional communication channel. Appropriate options may include:
+If you encounter someone else's private information, stop accessing
+it and report its location. Do not download, redistribute, or
+investigate additional records.
 
-* Privately contacting the course instructor through the learning management system
-* Contacting a repository administrator through an established institutional channel
-* Using the applicable institutional information-security or service-desk reporting process
+## Testing Boundaries
 
-Do not place vulnerability details in a public GitHub issue or discussion. Do not include working credentials, actual student records, or other sensitive data in a report.
+This document does not authorize security testing.
 
-## Information to Include
+Follow the explicit scope of any authorized course activity or
+testing agreement. Do not access other people's data, test exposed
+credentials, bypass access controls, scan systems without permission,
+introduce malware, or disrupt services.
 
-Provide enough information for maintainers to understand and reproduce the issue safely:
+## Report Handling and Supported Versions
 
-* A concise description of the vulnerability
-* The affected file, component, workflow, version, branch, or release
-* The potential security or privacy impact
-* The conditions required to reproduce the issue
-* Clear reproduction steps using synthetic or non-sensitive data
-* A minimal proof of concept, when necessary and safe
-* Relevant operating system, software, or environment information
-* Any temporary mitigation or proposed correction
-* Whether the issue has been disclosed to anyone else
-* A safe method for maintainers to request additional information
+Maintainers prioritize the repository's default branch and releases
+identified as current by that repository. Older versions and
+student or personal copies may require separate corrections.
 
-Remove credentials, student information, private communications, and unrelated personal information before submitting the report.
+Report exposed information regardless of version. Also report
+weaknesses in a copy when they appear to originate in shared
+repository materials.
 
-## Handling of Reports
+Maintainers will make a reasonable effort to assess reports,
+coordinate with the responsible institutional or service personnel,
+and communicate an outcome when practical.
 
-Repository maintainers will make a reasonable effort to:
+Response times depend on the concern and the responsible support
+process. This document does not guarantee a response deadline or
+offer a vulnerability reward.
 
-1. Review the report.
-2. Determine whether the issue is reproducible and within scope.
-3. Assess its potential impact.
-4. Identify an appropriate correction or mitigation.
-5. Coordinate necessary communication with institutional or platform personnel.
-6. Notify the reporter when the issue has been resolved or otherwise addressed, when practical.
+Coordinate with maintainers before publishing technical vulnerability
+details. Do not publish credentials, private records, student
+information, or restricted assessment content.
 
-Response and remediation times depend on the issue’s severity, complexity, available resources, academic calendar, and any required institutional review. This policy does not establish a guaranteed response time or service-level agreement.
+## Status
 
-Reports may be closed without remediation when an issue cannot be reproduced, is outside the repository’s control, presents no meaningful security impact, or concerns an unsupported version.
-
-This repository does not offer a vulnerability-reward or bug-bounty program unless a separate written program explicitly states otherwise.
-
-## Responsible Testing
-
-This policy does not authorize security testing against GitHub, institutional systems, course platforms, third-party services, other users’ repositories, or devices that you do not own or have explicit permission to test.
-
-Unless separately authorized in writing, do not:
-
-* Access, modify, retain, or disclose another person’s data
-* Use real credentials or attempt to determine whether exposed credentials remain valid
-* Conduct automated scanning against institutional or third-party systems
-* Perform denial-of-service, load, or resource-exhaustion testing
-* Use social engineering, phishing, or impersonation
-* Bypass authentication or access controls
-* Introduce malware or persistent access
-* Disrupt instruction, assessment, repository availability, or other services
-* Test using student records, grades, or other regulated information
-
-When possible, perform analysis in a local copy using synthetic data and an environment you control.
-
-If you encounter sensitive information unintentionally, stop testing, avoid additional access, preserve only the minimum information needed to report the issue, and submit a private report promptly.
-
-## Exposed Credentials and Sensitive Information
-
-If you discover an exposed credential:
-
-1. Do not use or test it.
-2. Report it privately and promptly.
-3. Identify its location without reproducing the complete secret.
-4. If the credential belongs to you, revoke or rotate it immediately.
-5. Follow applicable institutional incident-reporting requirements.
-
-Deleting a secret from the current version of a file may not remove it from Git history, cached content, forks, logs, or prior workflow output. Revocation or rotation is therefore normally required.
-
-## Coordinated Disclosure
-
-Please allow repository maintainers a reasonable opportunity to investigate and address a reported vulnerability before disclosing it publicly.
-
-The reporter and maintainers should coordinate:
-
-* Whether public disclosure is appropriate
-* What technical details can be shared safely
-* When disclosure should occur
-* Whether a security advisory or release note is needed
-* How contributors should be credited
-
-Do not publish details that expose credentials, personal information, student information, assessment content, or an uncorrected vulnerability without authorization.
-
-## Academic and Institutional Requirements
-
-Security reporting does not replace applicable course instructions, academic-integrity requirements, acceptable-use policies, privacy requirements, or institutional incident-reporting procedures.
-
-Discovering a vulnerability does not authorize a person to exploit it, access restricted information, disrupt a course or service, or exceed the scope of an assignment. Any academic or disciplinary consequences will be determined through the applicable institutional processes.
-
-## Provisional Status
-
-Formal institutional review and approval of this Security Policy are pending. This interim document may be revised or replaced after that review is complete.
-
-This policy does not create a safe-harbor agreement, authorize security testing, establish a contractual response obligation, or replace applicable institutional policies, course requirements, contractual obligations, laws, or platform terms. If a conflict exists, the controlling institutional policy, course requirement, law, contract, or platform term takes precedence.
-
-## References
-
-This document uses original, academic-context wording informed by the following sources:
-
-* [Adding a security policy to your repository](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/add-security-policy), which describes GitHub’s requirements for communicating supported versions and reporting procedures.
-* [Privately reporting a security vulnerability](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/report-privately), which explains how to submit a private vulnerability report when the repository has this feature enabled.
-* [Coordinated disclosure of security vulnerabilities](https://docs.github.com/en/code-security/concepts/vulnerability-reporting-and-management/coordinated-disclosure), which describes private collaboration and coordinated publication through repository security advisories.
-* [GitHub Community Guidelines](https://docs.github.com/en/site-policy/github-terms/github-community-guidelines), which establishes expectations for safe, respectful, and responsible participation on GitHub.
-* [GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service), which governs access to and use of GitHub.
-* Applicable institutional information-security, privacy, acceptable-use, academic-integrity, records-management, and incident-response policies.
+This guidance is provisional while institutional review is pending.
+It does not authorize testing or replace SNHU incident-reporting
+requirements, course instructions, or applicable platform terms.

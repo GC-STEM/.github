@@ -1,69 +1,93 @@
 # Accessibility
 
-We want everyone, including people with disabilities and people who use assistive technology, to be able to use and learn from this repository.
+We aim to make GC-STEM materials usable by everyone, including
+people with disabilities and people who use assistive technology.
 
-Accessibility is an ongoing part of course quality. Course materials are designed to support [WCAG 2.1 Level AA](https://www.w3.org/TR/WCAG21/), consistent with SNHU's current accessibility standard. Where practical, we also apply relevant [WCAG 2.2](https://www.w3.org/TR/WCAG22/) guidance. This is an accessibility goal, not a claim of verified conformance.
-
-This document primarily addresses course materials created and maintained in this repository. GitHub is a third-party platform, and some aspects of its accessibility are outside the course team's control. If a GitHub accessibility barrier prevents you from completing a course task, use the reporting process below so that an appropriate alternative or workaround can be identified.
+Our accessibility target is Web Content Accessibility Guidelines
+(WCAG) 2.1 Level AA, consistent with SNHU's published guidance.
+Where practical, we also apply relevant WCAG 2.2 improvements.
+This target is not a claim that every resource has been verified
+to meet the standard.
 
 ## Table of Contents <!-- omit from toc -->
 
-- [Accessibility](#accessibility)
-  - [Accessibility Practices](#accessibility-practices)
-  - [Known Limitations and Alternatives](#known-limitations-and-alternatives)
-  - [Reporting an Accessibility Barrier](#reporting-an-accessibility-barrier)
-  - [Contributors](#contributors)
-  - [Additional Resources](#additional-resources)
+1. [Get Help with an Accessibility Barrier](#get-help-with-an-accessibility-barrier)
+2. [Helpful Reporting Details](#helpful-reporting-details)
+3. [Known Barriers and Alternatives](#known-barriers-and-alternatives)
+4. [Practices for Contributors](#practices-for-contributors)
+5. [Status](#status)
 
-## Accessibility Practices
+## Get Help with an Accessibility Barrier
 
-Course repository content should:
+If a file, tool, website, or activity makes required coursework
+difficult or impossible to complete, contact your instructor
+promptly using the private communication method listed in
+Brightspace.
 
-* Use clear headings, lists, and descriptive link text.
-* Use plain language when possible and explain unfamiliar abbreviations and technical terms.
-* Provide meaningful alternative text for images.
-* Provide a text alternative for diagrams and other complex visual content.
-* Provide captions or transcripts for instructional audio and video.
-* Avoid using color alone to communicate meaning.
-* Use sufficient contrast for text, controls, diagrams, and other meaningful visual elements.
-* Ensure content remains usable when text is enlarged, spacing is increased, or the page is zoomed.
-* Use tables only for tabular data and include clear column headings.
-* Keep code examples readable and explain what they do and what successful output should look like.
-* Support keyboard use when an activity includes an interactive interface.
+You can also use [SNHU Accessibility Services](https://www.snhu.edu/about-us/accessibility)
+to find:
 
-## Known Limitations and Alternatives
+- The Online Accessibility Center
+- Accommodation support
+- The university's accessibility barrier-reporting form
+- The formal accessibility grievance procedure
 
-{{SME TODO: Identify known accessibility barriers that could affect required course activities. For each barrier, document an available workaround or equally effective alternative. Remove this section only if known limitations and contingency procedures are documented elsewhere for the course.}}
+You do not need to disclose a disability or diagnosis to report a
+barrier. Formal accommodation requests follow SNHU's accessibility
+services process.
 
-## Reporting an Accessibility Barrier
+If you choose to report a general repository barrier through
+GitHub Issues, describe the content or interaction involved.
+Do not post medical information, accommodation documents, grades,
+or other private information.
 
-If something in this repository prevents or makes it difficult for you to complete a course task:
+## Helpful Reporting Details
 
-* **Students:** Contact your instructor or use the [Student Support](https://github.com/GC-STEM/_core/wiki/Support-Student) resources listed for this course.
-* **Faculty and staff:** Report the problem through the repository's approved issue or support process.
+Share what you know:
 
-When possible, describe:
+- What you were trying to do
+- The page, file, tool, or activity involved
+- What made it difficult or impossible
+- Whether it prevents you from completing a required task
+- Your browser, operating system, or assistive technology, if
+  relevant and you are comfortable sharing it
 
-* What you were trying to do.
-* What happened or what made the task difficult.
-* The page, file, or activity involved.
-* Your browser, operating system, or assistive technology, if relevant.
+A short description is enough to begin. Screenshots, recordings,
+and technical details are optional.
 
-You do **not** need to disclose a disability or diagnosis to report an accessibility barrier.
+## Known Barriers and Alternatives
 
-## Contributors
+Course maintainers should document known barriers and approved
+workarounds or equally effective alternatives in the course
+repository's README or required instructions.
 
-When adding or changing course materials, check accessibility as part of the normal review process. Pay particular attention to headings, links, images, diagrams, tables, multimedia, color and contrast, content resizing and reflow, keyboard access, and any student-facing interface.
+If the documented options do not meet your needs, contact your
+instructor or SNHU Accessibility Services. This includes barriers
+in GitHub and other third-party tools.
 
-Automated accessibility tools can help identify some problems, but they do not replace manual review or feedback from people who use assistive technology.
+## Practices for Contributors
 
-## Additional Resources
+When creating or changing materials:
 
-* [W3C Web Content Accessibility Guidelines (WCAG) 2.1](https://www.w3.org/TR/WCAG21/)
-* [W3C Web Content Accessibility Guidelines (WCAG) 2.2](https://www.w3.org/TR/WCAG22/)
-* [W3C Images Tutorial: Alt Decision Tree](https://www.w3.org/WAI/tutorials/images/decision-tree/)
-* [Open Source Guide: Accessibility Best Practices for Your Project](https://opensource.guide/accessibility-best-practices-for-your-project/)
-* [GitHub Docs: Adding an Accessibility Page to Your Repository](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-an-accessibility-page-to-your-repository)
-* [GitHub Accessibility Documentation](https://accessibility.github.com/documentation)
-* [GitHub Docs: Managing Accessibility Settings](https://docs.github.com/en/account-and-profile/how-tos/account-settings/managing-accessibility-settings)
-* [GitHub Accessibility: Using GitHub Repositories with a Screen Reader](https://accessibility.github.com/documentation/guide/repos/)
+- Use descriptive headings, links, and plain language.
+- Explain unfamiliar terms and abbreviations.
+- Provide meaningful alternative text for informative images and
+  text explanations for complex diagrams.
+- Provide accurate captions for instructional video, transcripts
+  for audio, and descriptions of essential visual information.
+- Use readable contrast and communicate meaning through more than
+  color alone.
+- Keep content usable when enlarged or viewed on a narrow screen.
+- Use tables for data, with clear headers.
+- Provide commands, code, and error messages as selectable text.
+- Explain what code examples do and what successful output looks like.
+- Check keyboard access for interactive activities.
+
+Combine automated checks with manual review and feedback from
+people who use assistive technology.
+
+## Status
+
+This guidance is provisional while institutional review is pending.
+SNHU accessibility policies and approved accommodation processes
+continue to apply.

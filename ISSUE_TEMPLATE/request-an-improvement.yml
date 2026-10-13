@@ -1,46 +1,37 @@
 name: Request an improvement
-description: Suggest a change that could make the course tools, setup, or repository better.
+description: Suggest a clearer, easier, or more useful repository experience.
 title: "[Improvement] "
 body:
-  - type: dropdown
-    id: submitter
+  - type: markdown
     attributes:
-      label: Submitter
-      description: Who is submitting this request?
-      options:
-        - Student
-        - Faculty
-        - Other
-    validations:
-      required: true
+      value: |
+        Suggestions are welcome at any experience level. You do not need to provide a finished solution.
 
-  - type: dropdown
-    id: area
-    attributes:
-      label: Area
-      description: What part of the course does this suggestion relate to?
-      options:
-        - Course setup or automation
-        - Instructions or documentation
-        - GitHub repository
-        - Other or not sure
-    validations:
-      required: true
+        Public requests can be read by anyone. Leave out student records, private feedback, credentials, and completed coursework.
+
+        For grading questions, personal concerns, or a private suggestion, contact your instructor through Brightspace.
 
   - type: textarea
     id: improvement
     attributes:
       label: What would you improve?
-      description: Briefly describe the change you would like to see.
+      description: Describe the difficulty or the change you would find helpful.
       placeholder: It would be helpful if...
     validations:
       required: true
 
   - type: textarea
+    id: location
+    attributes:
+      label: Where would this improvement apply?
+      description: Optional. Identify the file, instructions, tool, or activity.
+    validations:
+      required: false
+
+  - type: textarea
     id: benefit
     attributes:
-      label: Why would this help?
-      description: Optional. Explain how this change would make the experience clearer, easier, or more reliable.
-      placeholder: This would help because...
+      label: How would this help?
+      description: Optional. Explain who would benefit and how.
     validations:
       required: false

@@ -52,22 +52,40 @@ GC-STEM uses five layers with distinct ownership and responsibilities.
 
 ## Standards and Inheritance
 
-GitHub automatically provides supported community standards and templates
-from this public `.github` repository to other GC-STEM-owned repositories
+GitHub provides supported community documents and templates from
+this public `.github` repository to other GC-STEM-owned repositories
 that do not define their own.
 
-- **Defaults:** Applied by GitHub without copying files downstream.
-- **Overrides:** Repository-specific community files take precedence.
-- **Templates:** `cs000` supplies initial CS course structure and
-  configuration; subsequent changes do not propagate automatically.
+- **Community documents:** May be stored in `.github/`, the repository
+  root, or `docs/`. GitHub checks those locations in that order.
+- **Issue forms:** Store in `.github/ISSUE_TEMPLATE/`.
+- **Discussion forms:** When provided, store in
+  `.github/DISCUSSION_TEMPLATE/`.
+- **Single pull request template:** Store in
+  `.github/pull_request_template.md`.
+- **Overrides:** Repository-specific files take precedence. A
+  repository's own issue templates or issue-template configuration
+  replace the default issue-template set.
+- **Local copies:** GitHub displays inherited defaults without adding
+  them to the receiving repository. They are not included in its
+  clones or downloads.
+- **CS course templates:** `cs000` supplies initial course structure
+  and configuration. Later changes do not propagate automatically.
 - **Wikis:** Maintained independently and never inherited automatically.
-- **Student repositories:** GC-STEM defaults do not automatically apply
-  to repositories owned by students.
+- **Student-owned repositories:** GC-STEM defaults do not automatically
+  apply.
 
-Other files, including `LICENSE`, `CODEOWNERS`, `.gitattributes`,
-`.editorconfig`, and GitHub Actions workflows, are not inherited through
-GitHub's community standards mechanism. Required copies must be managed
-separately.
+The issue forms in `.github/ISSUE_TEMPLATE/` serve this repository
+and provide defaults for eligible GC-STEM repositories. Root-level
+`ISSUE_TEMPLATE/` files do not provide default issue forms.
+
+Keep required course materials and approved alternatives in the
+course repository or official learning environment. Required local
+guidance must be included explicitly in the course repository.
+
+`LICENSE`, `CODEOWNERS`, `.gitattributes`, `.editorconfig`, and GitHub
+Actions workflows are not inherited through this mechanism. Manage
+required copies separately.
 
 See [GitHub's default community health file documentation](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file).
 
