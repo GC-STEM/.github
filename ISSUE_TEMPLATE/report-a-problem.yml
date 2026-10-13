@@ -1,46 +1,58 @@
 name: Report a problem
-description: Report incorrect, unclear, missing, or broken repository material.
+description: Report something that did not work as expected.
 title: "[Problem] "
 body:
-  - type: markdown
+  - type: dropdown
+    id: submitter
     attributes:
-      value: |
-        Thank you for helping improve these materials. Share what you know; you do not need to diagnose the cause.
+      label: Submitter
+      description: Who is submitting this report?
+      options:
+        - Student
+        - Faculty
+        - Other
+    validations:
+      required: true
 
-        Public reports can be read by anyone. Leave out passwords, student records, private feedback, and completed coursework.
-
-        For private help or if GitHub is difficult to use, contact your instructor through Brightspace. Use [private security reporting](https://github.com/GC-STEM/.github/blob/main/SECURITY.md) for suspected vulnerabilities or exposed information.
-
-  - type: textarea
-    id: location
+  - type: dropdown
+    id: environment
     attributes:
-      label: Where did you find the problem?
-      description: Identify the file, heading, step, or page involved.
-      placeholder: File, heading, step, or page...
+      label: Environment (if applicable)
+      description: Which environment were you using, if relevant?
+      options:
+        - Codio Virtual Desktop (CVD)
+        - Windows
+        - macOS
+        - Linux
+        - GitHub website
+        - Other or not sure
+        - Not applicable
     validations:
       required: true
 
   - type: textarea
     id: problem
     attributes:
-      label: What happened or was unclear?
-      description: Describe what you were trying to do and the difficulty you encountered.
-      placeholder: I was trying to... The problem was...
+      label: What happened?
+      description: Briefly describe what you were trying to do and what went wrong.
+      placeholder: I was trying to... Instead...
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: What did you expect?
-      description: Optional. Tell us what you expected, if you know.
+      label: What did you expect to happen?
+      description: Briefly describe what you expected instead.
+      placeholder: I expected...
     validations:
-      required: false
+      required: true
 
   - type: textarea
     id: details
     attributes:
       label: Additional details
-      description: Optional. Include relevant error messages, steps, your operating system or application, and how the problem affects your work. Remove private information.
+      description: Optional. Add steps, error messages, screenshots, or other information that may help us reproduce the problem. Do not include passwords, access tokens, or other sensitive information.
+      placeholder: Add any helpful details here.
     validations:
       required: false
