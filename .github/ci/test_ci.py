@@ -57,6 +57,23 @@ class RepositoryTests(unittest.TestCase):
     def test_valid_baseline(self):
         self.assertEqual(validate(self.root, self.policy), ([], []))
 
+    def test_standards_policy_does_not_require_course_configuration(self):
+        self.write("README.md", "# GitHub Standards\n")
+        (self.root / ".gitattributes").unlink()
+        (self.root / ".editorconfig").unlink()
+        self.stage()
+        policy = {"required_files": ["README.md"], "check_eol": False}
+        self.assertEqual(validate(self.root, policy), ([], []))
+
+    def test_disabling_eol_checks_preserves_configuration_validation(self):
+        self.write("broken.json", '{"unterminated": ')
+        self.stage()
+        self.policy["check_eol"] = False
+        errors, _ = validate(self.root, self.policy)
+        self.assertTrue(
+            any("invalid configuration" in error for error in errors)
+        )
+
     def test_missing_required_file(self):
         self.policy["required_files"].append("LICENSE")
         errors, _ = validate(self.root, self.policy)

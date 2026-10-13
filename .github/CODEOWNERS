@@ -1,9 +1,12 @@
-# Default ownership of repository content.
+# Ownership applies only to GC-STEM/.github; these rules are not inherited.
 * @GC-STEM/maintainers
 
-# Administrative configuration.
+# Organization configuration, community standards, and public branding.
 /.github/ @GC-STEM/admins
-/.gitattributes @GC-STEM/admins
-/.gitignore @GC-STEM/admins
-/pyproject.toml @GC-STEM/admins
-/requirements.txt @GC-STEM/admins
+/ACCESSIBILITY.md @GC-STEM/admins
+/CODE_OF_CONDUCT.md @GC-STEM/admins
+/CONTRIBUTING.md @GC-STEM/admins
+/SECURITY.md @GC-STEM/admins
+/SUPPORT.md @GC-STEM/admins
+/LICENSE @GC-STEM/admins
+/profile/ @GC-STEM/admins

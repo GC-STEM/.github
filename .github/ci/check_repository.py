@@ -117,7 +117,7 @@ def check_eol(
 
 
 def validate(root: Path, policy: dict) -> tuple[list[str], list[str]]:
-    """Parse repository configuration and validate reusable Core safeguards."""
+    """Parse configuration and apply the selected repository policy."""
     errors, warnings = [], []
     for name in policy["required_files"]:
         path = root / name
@@ -183,12 +183,15 @@ def validate(root: Path, policy: dict) -> tuple[list[str], list[str]]:
         except (ValueError, yaml.YAMLError) as error:
             errors.append(f"{name}: invalid configuration: {error}")
 
-    try:
-        eol_errors, eol_warnings = check_eol(root, policy, settings)
-        errors.extend(eol_errors)
-        warnings.extend(eol_warnings)
-    except (OSError, ValueError, editorconfig.EditorConfigError) as error:
-        errors.append(f"Cannot validate EoL policy: {error}")
+    # Course configuration is managed in cs000, not inherited from .github.
+    # Keep EoL checks enabled by default for repositories that use them.
+    if policy.get("check_eol", True):
+        try:
+            eol_errors, eol_warnings = check_eol(root, policy, settings)
+            errors.extend(eol_errors)
+            warnings.extend(eol_warnings)
+        except (OSError, ValueError, editorconfig.EditorConfigError) as error:
+            errors.append(f"Cannot validate EoL policy: {error}")
     return errors, warnings
 
 

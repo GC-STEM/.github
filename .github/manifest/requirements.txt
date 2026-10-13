@@ -1,5 +1,5 @@
-# CS-Core program-wide Python dependencies
-# Install with: python -m pip install -r requirements.txt
+# Legacy course automation dependencies; not used by repository CI.
+# Install with: python -m pip install -r .github/manifest/requirements.txt
 
 # Linter and formatter dependencies
 ruff

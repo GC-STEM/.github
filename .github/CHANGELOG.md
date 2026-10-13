@@ -1,99 +1,40 @@
-<!-- markdownlint-disable MD024 -->
 # Changelog
 
-All notable changes to this repository are documented in this file.
+Notable changes to GC-STEM/.github. Add approved changes under Unreleased;
+record a version and release date only when a release is published.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and version numbers follow [Semantic Versioning](https://semver.org/).
-
-<!--
-List releases in reverse chronological order, with the newest first.
-
-Use ISO 8601 dates: YYYY-MM-DD.
-
-Group changes under the applicable headings:
-- Added: New content, features, resources, or capabilities
-- Changed: Changes to existing content, behavior, or requirements
-- Deprecated: Content or functionality scheduled for removal
-- Removed: Removed content, functionality, or requirements
-- Fixed: Corrections to errors, defects, links, or instructions
-- Security: Changes that address security or privacy concerns
-
-ENTRY FORMAT
-
-- **Scope:** Concise description of the change. **Impact:** Who or what is
-  affected. **Action required:** Required action or "None." ([#issue-number])
-
-Fields:
-- Scope: Course component, module, assignment, file, platform, or tool affected
-- Change: A concise, user-focused description of what changed
-- Impact: Effect on students, faculty, maintainers, workflows, or compatibility
-- Action required: Steps users must take; use "None" when no action is needed
-- Reference: Optional link to the related issue, pull request, or decision record
-
-Example:
-- **Module Two assignment:** Corrected the expected output in the Part A
-  example. **Impact:** Documentation only; assignment requirements are
-  unchanged. **Action required:** None. ([#123])
--->
-
-## [Unreleased]
+## Unreleased
 
 ### Added
 
-* **[Scope]:** [Describe the new content or capability.] **Impact:** [Describe
-  who or what is affected.] **Action required:** [None or required action.]
-  ([#issue-number])
+- **Default templates:** Added issue forms in `.github/ISSUE_TEMPLATE/` and
+  the default `.github/pull_request_template.md`. Existing root-level
+  template folders can be removed after review.
+- **CI safeguards:** Added regression coverage for repository validation
+  without course IDE configuration.
+- **Maintenance:** Added migration notes and ignore rules for Python caches.
 
 ### Changed
 
-* **[Scope]:** [Describe what changed.] **Impact:** [Describe the effect.]
-  **Action required:** [None or required action.] ([#issue-number])
-
-### Deprecated
-
-* **[Scope]:** [Describe what will be removed or replaced and when.]
-  **Impact:** [Describe the effect.] **Action required:** [Describe how to
-  prepare.] ([#issue-number])
-
-### Removed
-
-* **[Scope]:** [Describe what was removed.] **Impact:** [Describe the effect.]
-  **Action required:** [None or required action.] ([#issue-number])
+- **Repository scope:** Retargeted workflow guards and CI documentation
+  from GC-STEM/_core to GC-STEM/.github.
+- **Validation:** Require this repository's community files, organization
+  profile, templates, and CI files. Course editor, IDE, and Git configuration
+  remain the responsibility of cs000 and downstream course repositories.
+- **Ownership:** Updated CODEOWNERS paths for community standards and the
+  organization profile. Existing team names are retained.
 
 ### Fixed
 
-* **[Scope]:** [Describe the correction.] **Impact:** [Describe the effect.]
-  **Action required:** [None or required action.] ([#issue-number])
+- **Workflow execution:** Checks can run in the renamed repository instead
+  of being skipped by the former repository-name guard.
+- **EoL validation:** This repository explicitly disables course-specific
+  line-ending checks. Those checks remain enabled by default when the
+  validator is used elsewhere.
+- **Dependency instructions:** Corrected the legacy manifest dependency path.
 
-### Security
+## Maintenance Notes
 
-* **[Scope]:** [Describe the security or privacy improvement without exposing
-  sensitive details.] **Impact:** [Describe the effect.] **Action required:**
-  [None or required action.] ([#issue-number])
-
-## [X.Y.Z] - YYYY-MM-DD
-
-### Added
-
-* **[Scope]:** [Describe the notable addition.] **Impact:** [Describe the
-  effect.] **Action required:** [None or required action.] ([#issue-number])
-
-### Changed
-
-* **[Scope]:** [Describe the notable change.] **Impact:** [Describe the
-  effect.] **Action required:** [None or required action.] ([#issue-number])
-
-### Fixed
-
-* **[Scope]:** [Describe the notable correction.] **Impact:** [Describe the
-  effect.] **Action required:** [None or required action.] ([#issue-number])
-
-<!-- Use this format if a release must be withdrawn:
-
-## [X.Y.Z] - YYYY-MM-DD [YANKED]
-
-Explain why the release was withdrawn and identify the replacement version.
-
-[Unreleased]: https://github.com/OWNER/REPOSITORY/compare/vX.Y.Z...HEAD
-[X.Y.Z]: https://github.com/OWNER/REPOSITORY/releases/tag/vX.Y.Z
--->
+The IT-140 manifest schema and image assets are retained unchanged. Tracked
+Python bytecode is excluded from the update package; remove the existing
+tracked cache separately. See [migration notes](MIGRATION-NOTES.md).
