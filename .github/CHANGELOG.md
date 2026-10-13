@@ -37,4 +37,4 @@ record a version and release date only when a release is published.
 
 The IT-140 manifest schema and image assets are retained unchanged. Tracked
 Python bytecode is excluded from the update package; remove the existing
-tracked cache separately. See [migration notes](MIGRATION-NOTES.md).
+tracked cache separately. 

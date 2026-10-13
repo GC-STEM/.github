@@ -70,10 +70,6 @@ and restricted pages can require manual verification. Linked remote pages
 are not checked recursively. Example URLs in code blocks and email addresses
 are excluded.
 
-Root-level community documents still contain migration and relative-link
-defects. See [migration notes](../MIGRATION-NOTES.md). Repository-wide link
-checks may fail until those files are corrected.
-
 ## Run Locally
 
 Use Python 3.12 and Git from the repository root:
