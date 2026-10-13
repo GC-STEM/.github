@@ -1,17 +1,19 @@
 {
   "required_files": [
-    "README.md",
+    "ISSUE_TEMPLATE/report-a-problem.yml",
+    "ISSUE_TEMPLATE/report-accessibility-barrier.yml",
+    "ISSUE_TEMPLATE/request-an-improvement.yml",
+    "profile/README.md",
     "ACCESSIBILITY.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
+    "LICENSE.md",
+    "README.md",
     "SECURITY.md",
     "SUPPORT.md",
+    "VULNERABILITY_REPORT.yml",
     ".github/CODEOWNERS",
     ".github/CHANGELOG.md",
-    ".github/pull_request_template.md",
-    ".github/ISSUE_TEMPLATE/report-a-problem.yml",
-    ".github/ISSUE_TEMPLATE/report-accessibility-barrier.yml",
-    ".github/ISSUE_TEMPLATE/request-an-improvement.yml",
     ".github/ci/requirements.txt",
     ".github/ci/check_repository.py",
     ".github/ci/check_readme_commands.py",
@@ -22,8 +24,7 @@
     ".github/workflows/tests.yml",
     ".github/workflows/readme-commands.yml",
     ".github/workflows/internal-links.yml",
-    ".github/workflows/external-links.yml",
-    "profile/README.md"
+    ".github/workflows/external-links.yml"
   ],
   "check_eol": false
 }
