@@ -1,86 +1,807 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/GC-STEM/it140/refs/heads/main/scripts/.manifest/it140_manifest.schema.json",
-  "title": "IT 140 Course Automation Manifest",
-  "description": "Structural contract for the controlled IT 140 automation manifest. The manifest selects concrete approved products, versions, sources, platforms, deployment profiles, lifecycle workflows, provider profiles, managed settings, and managed assets. Operating-system support packages are intentionally separated from course IDE capability bindings.",
-  "$comment": "Validation is layered. This schema performs structural validation. The scripts must also perform semantic validation: reject duplicate JSON keys; confirm every referenced product, source, provider profile, deployment profile, lifecycle workflow, settings profile, and adapter exists; confirm every required capability has one valid binding on every enabled platform; confirm deployment-profile platform, release, architecture, and allowed-workflow references are valid; confirm lifecycle workflow deployment-profile references, role and starting-state combinations, ordered actions, update modes, and success transitions are coherent; confirm exactly one enabled reference deployment profile and that its platform is marked as the reference platform; confirm adapter IDs are compiled into or distributed with the approved automation release; confirm managed and obsolete paths remain within approved boundaries; confirm the manifest contains no secrets or personal values; and confirm integrity metadata is appropriate for each source type.",
+  "$id": "https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/manifest.schema.json",
+  "title": "GC-STEM Course Automation Manifest",
+  "description": "Version 3.0 structural contract for the STEM Computing Baseline (SCB) and every STEM course's Course Development Environment (CDE). Validate https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/scb_manifest.json and course_manifest.json, if present, with this schema. The SCB defines common tools, versions, sources, platforms, deployment profiles, lifecycle workflows, managed settings, and managed assets. The course manifest identifies the course, pins its local SCB release, and declares optional additions and explicitly permitted overrides. An IDE is a concrete software product within the CDE.",
+  "$comment": "Two-part composition is an automation responsibility, not a JSON Schema merge feature. The only input files are https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/scb_manifest.json and .github/manifest/course_manifest.json. Keep canonical schema and SCB releases in GC-STEM/.github and distribute reviewed, versioned local copies with course repositories. Do not silently fetch a changing main branch or inherit repository files through GitHub community defaults. Required resolver order: (1) Read course manifest and local SCB bytes without running executable content. Reject duplicate JSON keys in both files. (2) Structurally validate both inputs; check schema compatibility, SCB identity/version, the exact-byte SHA-256 pin, approval state, and trusted release provenance using policy supplied by the approved automation. A checksum or self-declared approved status alone does not establish trust. (3) Deep-copy the SCB configuration catalogs, policy, and logging. Add course catalog entries by stable ID, then apply platform_extensions to baseline or newly added platforms. Existing IDs are conflicts, including identical repeated entries. Arrays in newly added or replaced objects are atomic values, not append/union operations. (4) For each course override, require a named baseline permission with exactly the same target, a matching course allowlist if present, and an existing baseline target. Reject duplicate or ancestor/descendant override targets, missing targets, additions overlapping a replaced object, and any attempt to override metadata or permissions. Replace the complete target object. A schema-valid course must not be allowed to authorize its own exceptions. (5) Assemble the resolved configuration with course identity/control, baseline reference/baseline_control, and the SCB automation release; validate #/$defs/resolvedConfiguration. (6) Perform semantic validation before any prepare/install/configure/update action: confirm all referenced products, capabilities, sources, retry profiles, provider profiles, settings profiles, platforms, deployment profiles, workflows, and adapters exist and are approved; confirm required capabilities have coherent required bindings on each enabled platform; validate deployment release, architecture, roles, states, action order, update mode, workflow authorizations, and success transitions; require exactly one enabled reference platform and exactly one enabled reference deployment profile linked to that platform; check source integrity and digest lengths, calendar dates, product/version/dependency compatibility, duplicate/conflicting settings and managed destinations, path variables and canonical approved boundaries, obsolete-component safety, secrets and personal values. Unresolved conflicts are fatal; never resolve them by file order or last-writer-wins behavior. Structural validation alone cannot compare files, match dynamic IDs/permission targets, prove authorization or integrity, or implement these semantic checks. These checks must be implemented in approved automation, not inferred from this schema's acceptance of a document.",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "automation_release",
-    "automation_release_date_time_group",
-    "course",
-    "control",
-    "policy",
-    "capabilities",
-    "products",
-    "software_sources",
-    "provider_profiles",
-    "platforms",
-    "deployment_profiles",
-    "lifecycle_workflows",
-    "managed_settings",
-    "managed_assets",
-    "obsolete_components",
-    "logging"
-  ],
-  "properties": {
-    "schema_version": {
-      "type": "string",
-      "const": "2.2",
-      "description": "Manifest schema compatibility version understood by this schema."
+  "oneOf": [
+    {
+      "$ref": "#/$defs/scbManifest"
     },
-    "automation_release": {
-      "$ref": "#/$defs/automationRelease"
+    {
+      "$ref": "#/$defs/courseManifest"
+    }
+  ],
+  "$defs": {
+    "scbManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "format": "uri-reference",
+          "minLength": 1,
+          "maxLength": 2048,
+          "description": "Optional editor/validator association. Use ./manifest.schema.json for a local schema copy or an approved immutable schema URL. This property does not load or merge the SCB manifest."
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "manifest_type": {
+          "type": "string",
+          "const": "scb"
+        },
+        "baseline": {
+          "$ref": "#/$defs/baselineIdentity"
+        },
+        "automation_release": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "automation_release_date_time_group": {
+          "$ref": "#/$defs/versionDateTimeGroup"
+        },
+        "control": {
+          "$ref": "#/$defs/control"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilityCatalog"
+        },
+        "products": {
+          "$ref": "#/$defs/productCatalog"
+        },
+        "software_sources": {
+          "$ref": "#/$defs/softwareSourceCatalog"
+        },
+        "provider_profiles": {
+          "$ref": "#/$defs/providerProfileCatalog"
+        },
+        "platforms": {
+          "$ref": "#/$defs/platformCatalog"
+        },
+        "deployment_profiles": {
+          "$ref": "#/$defs/deploymentProfileCatalog"
+        },
+        "lifecycle_workflows": {
+          "$ref": "#/$defs/lifecycleWorkflowCatalog"
+        },
+        "managed_settings": {
+          "$ref": "#/$defs/managedSettingsCatalog"
+        },
+        "managed_assets": {
+          "$ref": "#/$defs/managedAssetCatalog"
+        },
+        "obsolete_components": {
+          "$ref": "#/$defs/obsoleteComponentCatalog"
+        },
+        "logging": {
+          "$ref": "#/$defs/logging"
+        },
+        "override_permissions": {
+          "$ref": "#/$defs/overridePermissions"
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_type",
+        "baseline",
+        "automation_release",
+        "automation_release_date_time_group",
+        "control",
+        "policy",
+        "capabilities",
+        "products",
+        "software_sources",
+        "provider_profiles",
+        "platforms",
+        "deployment_profiles",
+        "lifecycle_workflows",
+        "managed_settings",
+        "managed_assets",
+        "obsolete_components",
+        "logging",
+        "override_permissions"
+      ],
+      "description": "Complete shared STEM Computing Baseline stored as scb_manifest.json. It contains no course identity and has no parent baseline. Catalog requirements here are structural; approved tool selections and required capability IDs are declared in this manifest's data."
+    },
+    "courseManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "format": "uri-reference",
+          "minLength": 1,
+          "maxLength": 2048,
+          "description": "Optional editor/validator association. Use ./manifest.schema.json for a local schema copy or an approved immutable schema URL. This property does not load or merge the SCB manifest."
+        },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "manifest_type": {
+          "type": "string",
+          "const": "course"
+        },
+        "course": {
+          "$ref": "#/$defs/course"
+        },
+        "baseline": {
+          "$ref": "#/$defs/baselineReference"
+        },
+        "control": {
+          "$ref": "#/$defs/control"
+        },
+        "additions": {
+          "$ref": "#/$defs/courseAdditions"
+        },
+        "overrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/override"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_type",
+        "course",
+        "baseline",
+        "control"
+      ],
+      "description": "Required course_manifest.json for every STEM course. Omit additions and overrides when the course uses only the SCB. Missing additions means no additions; missing overrides means no overrides. JSON Schema defaults do not supply manifest data."
+    },
+    "resolvedConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "manifest_type": {
+          "type": "string",
+          "const": "resolved"
+        },
+        "course": {
+          "$ref": "#/$defs/course"
+        },
+        "baseline": {
+          "$ref": "#/$defs/baselineReference"
+        },
+        "automation_release": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "automation_release_date_time_group": {
+          "$ref": "#/$defs/versionDateTimeGroup"
+        },
+        "control": {
+          "$ref": "#/$defs/control"
+        },
+        "baseline_control": {
+          "$ref": "#/$defs/control"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilityCatalog"
+        },
+        "products": {
+          "$ref": "#/$defs/productCatalog"
+        },
+        "software_sources": {
+          "$ref": "#/$defs/softwareSourceCatalog"
+        },
+        "provider_profiles": {
+          "$ref": "#/$defs/providerProfileCatalog"
+        },
+        "platforms": {
+          "$ref": "#/$defs/platformCatalog"
+        },
+        "deployment_profiles": {
+          "$ref": "#/$defs/deploymentProfileCatalog"
+        },
+        "lifecycle_workflows": {
+          "$ref": "#/$defs/lifecycleWorkflowCatalog"
+        },
+        "managed_settings": {
+          "$ref": "#/$defs/managedSettingsCatalog"
+        },
+        "managed_assets": {
+          "$ref": "#/$defs/managedAssetCatalog"
+        },
+        "obsolete_components": {
+          "$ref": "#/$defs/obsoleteComponentCatalog"
+        },
+        "logging": {
+          "$ref": "#/$defs/logging"
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_type",
+        "course",
+        "baseline",
+        "automation_release",
+        "automation_release_date_time_group",
+        "control",
+        "baseline_control",
+        "policy",
+        "capabilities",
+        "products",
+        "software_sources",
+        "provider_profiles",
+        "platforms",
+        "deployment_profiles",
+        "lifecycle_workflows",
+        "managed_settings",
+        "managed_assets",
+        "obsolete_components",
+        "logging"
+      ],
+      "description": "In-memory CDE configuration produced by the approved resolver. Validate explicitly against #/$defs/resolvedConfiguration after composing the two input manifests and before changing the environment. This is not a third input manifest or a required repository file. control is the course approval/provenance record; baseline_control is the SCB record. automation_release and its date-time group come from the SCB."
+    },
+    "baselineIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "baseline_id": {
+          "type": "string",
+          "const": "stem_computing_baseline"
+        },
+        "display_name": {
+          "type": "string",
+          "const": "STEM Computing Baseline"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        }
+      },
+      "required": [
+        "baseline_id",
+        "display_name",
+        "version"
+      ],
+      "description": "Identity and independently versioned release of the STEM Computing Baseline (SCB). This is separate from schema_version and automation_release."
+    },
+    "baselineReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "./scb_manifest.json",
+          "description": "Local file beside course_manifest.json in the repository's .github/manifest folder. Resolve relative to course_manifest.json, never the process working directory. Remote fetching and recursive baseline inheritance are not part of this contract."
+        },
+        "baseline_id": {
+          "type": "string",
+          "const": "stem_computing_baseline"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 of the exact bytes of the referenced local SCB manifest, before JSON parsing. Semantic validation must compare this digest and the referenced baseline_id, baseline version, and schema_version with the loaded SCB manifest. Copy the SCB file without newline or encoding transformations, or deliberately update the pin after an approved change."
+        }
+      },
+      "required": [
+        "path",
+        "baseline_id",
+        "version",
+        "sha256"
+      ],
+      "description": "Required, version-pinned local SCB dependency for every course. A schema reference is not a manifest dependency and does not merge data."
     },
     "course": {
-      "$ref": "#/$defs/course"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "course_id": {
+          "$ref": "#/$defs/courseId"
+        },
+        "course_title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "environment_name": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Name of this course's complete Course Development Environment (CDE), including the SCB and any course-specific requirements."
+        },
+        "repository_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "description": "Course repository name, without an owner, .git suffix, or directory path. Exposed to approved path templates as ${COURSE_REPOSITORY}. A student's clone may use a different directory name; COURSE_ROOT is resolved at runtime."
+        }
+      },
+      "required": [
+        "course_id",
+        "course_title",
+        "environment_name",
+        "repository_name"
+      ],
+      "description": "Course identity belongs in each course's course_manifest.json, never in the reusable SCB manifest."
     },
-    "control": {
-      "$ref": "#/$defs/control"
+    "courseId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9]+(?:[- ][A-Za-z0-9]+)*$",
+      "examples": [
+        "CS-000",
+        "IT-140",
+        "CYB-200",
+        "DAT-205",
+        "MAT-243",
+        "PHY-150"
+      ],
+      "description": "Institutional course identifier. No STEM subject prefix, course number range, or course title is hard-coded in the schema."
     },
-    "policy": {
-      "$ref": "#/$defs/policy"
+    "courseAdditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/capabilityDefinition"
+          },
+          "minProperties": 1
+        },
+        "products": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/product"
+          },
+          "minProperties": 1
+        },
+        "software_sources": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/softwareSource"
+          },
+          "minProperties": 1
+        },
+        "provider_profiles": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/providerProfile"
+          },
+          "minProperties": 1
+        },
+        "platforms": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/platform"
+          },
+          "minProperties": 1
+        },
+        "deployment_profiles": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/deploymentProfile"
+          },
+          "minProperties": 1
+        },
+        "lifecycle_workflows": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/lifecycleWorkflow"
+          },
+          "minProperties": 1
+        },
+        "managed_settings": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/managedSetting"
+          },
+          "minProperties": 1
+        },
+        "managed_assets": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/managedAsset"
+          },
+          "minProperties": 1
+        },
+        "obsolete_components": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/obsoleteComponent"
+          },
+          "minProperties": 1
+        },
+        "platform_extensions": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/platformExtension"
+          },
+          "minProperties": 1
+        }
+      },
+      "description": "Optional new catalog entries and platform package/binding additions. At least one nonempty section is required when additions is present. Catalogs are maps keyed by stable IDs, not arrays. Existing IDs, duplicate managed-setting destinations/keys, and conflicting managed assets are errors; there is no implicit last-writer-wins merge.",
+      "minProperties": 1
     },
-    "capabilities": {
-      "$ref": "#/$defs/capabilityCatalog"
+    "platformExtension": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os_packages": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/osPackage"
+          },
+          "minProperties": 1
+        },
+        "cde_bindings": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/cdeBinding"
+          },
+          "minProperties": 1
+        }
+      },
+      "description": "Add new OS support package IDs or capability binding IDs to an existing baseline or newly added platform. An existing nested ID is a conflict even if the repeated value is identical. Use an authorized explicit override to replace an existing baseline entry.",
+      "minProperties": 1
     },
-    "products": {
-      "$ref": "#/$defs/productCatalog"
+    "overridePermissions": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/overridePermission"
+      },
+      "description": "Baseline-owned permissions for explicit course overrides. An empty object permits no overrides. These permissions must come from a trusted, approved SCB release, not merely a locally edited baseline that passes structural validation."
     },
-    "software_sources": {
-      "$ref": "#/$defs/softwareSourceCatalog"
+    "overridePermission": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/overrideTarget"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "allowed_course_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/courseId"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Optional course allowlist. If omitted, this permission applies to any course using this exact approved SCB release. Course IDs are matched exactly, including punctuation and case."
+        },
+        "approval_record": {
+          "$ref": "#/$defs/uriHttps"
+        }
+      },
+      "required": [
+        "target",
+        "description"
+      ],
+      "description": "Permission owned by the SCB. A course cannot create permissions. Semantic validation requires an existing baseline target and at most one permission per target. Replacement values still must satisfy this schema and all approved release constraints."
     },
-    "provider_profiles": {
-      "$ref": "#/$defs/providerProfileCatalog"
+    "override": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "permission_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target": {
+          "$ref": "#/$defs/overrideTarget"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000,
+          "pattern": "\\S"
+        },
+        "value": {
+          "type": "object",
+          "description": "Complete replacement object. The target-specific branch validates its exact shape."
+        }
+      },
+      "required": [
+        "permission_id",
+        "target",
+        "reason",
+        "value"
+      ],
+      "description": "Explicit complete-entry replacement authorized by the named baseline permission. Runtime checks must confirm exact target equality, course eligibility, a pre-existing baseline target, unique non-overlapping targets, and a valid final CDE.",
+      "oneOf": [
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/capabilities/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/capabilityDefinition"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/products/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/product"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/software_sources/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/softwareSource"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/provider_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/providerProfile"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/platform"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/deployment_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/deploymentProfile"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/lifecycle_workflows/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/lifecycleWorkflow"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/managed_settings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/managedSetting"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/managed_assets/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/managedAsset"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/obsolete_components/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/obsoleteComponent"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/os_packages/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/osPackage"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/cde_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/cdeBinding"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/policy$"
+            },
+            "value": {
+              "$ref": "#/$defs/policy"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/logging$"
+            },
+            "value": {
+              "$ref": "#/$defs/logging"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        }
+      ]
     },
-    "platforms": {
-      "$ref": "#/$defs/platformCatalog"
+    "overrideTarget": {
+      "type": "string",
+      "oneOf": [
+        {
+          "pattern": "^/capabilities/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/products/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/software_sources/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/provider_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/deployment_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/lifecycle_workflows/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/managed_settings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/managed_assets/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/obsolete_components/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/os_packages/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/cde_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/policy$"
+        },
+        {
+          "pattern": "^/logging$"
+        }
+      ],
+      "description": "Exact JSON Pointer to an existing baseline catalog entry, platform package/binding, policy object, or logging object. Wildcards, array indexes, arbitrary leaf edits, metadata changes, and permission changes are unsupported. Replacement values are complete objects, not patches."
     },
-    "deployment_profiles": {
-      "$ref": "#/$defs/deploymentProfileCatalog"
-    },
-    "managed_settings": {
-      "$ref": "#/$defs/managedSettingsCatalog"
-    },
-    "managed_assets": {
-      "$ref": "#/$defs/managedAssetCatalog"
-    },
-    "obsolete_components": {
-      "$ref": "#/$defs/obsoleteComponentCatalog"
-    },
-    "logging": {
-      "$ref": "#/$defs/logging"
-    },
-    "lifecycle_workflows": {
-      "$ref": "#/$defs/lifecycleWorkflowCatalog"
-    },
-    "automation_release_date_time_group": {
-      "$ref": "#/$defs/versionDateTimeGroup"
-    }
-  },
-  "$defs": {
     "identifier": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$",
@@ -95,21 +816,17 @@
       "maxLength": 120,
       "description": "Identifier for reviewed executable behavior distributed with the package. Manifest data may select but not define adapters."
     },
-    "automationRelease": {
-      "type": "string",
-      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "description": "Semantic Versioning 2.0.0 version with optional pre-release and build metadata."
-    },
     "schemaVersion": {
       "type": "string",
-      "pattern": "^[1-9][0-9]*\\.[0-9]+$"
+      "const": "3.0",
+      "description": "Version 3.0 is a breaking replacement for the version 2.x single-course contract."
     },
     "pathTemplate": {
       "type": "string",
       "minLength": 1,
       "maxLength": 1024,
       "pattern": "^(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$))(?!.*\\$\\{(?:PASSWORD|TOKEN|SECRET|PRIVATE_KEY|EMAIL)\\}).+$",
-      "description": "Portable path template using only approved runtime variables such as ${HOME}, ${DESKTOP}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, or ${TEMP}. Semantic validation must expand and canonicalize the path before use."
+      "description": "Portable path template using only variables permitted by policy.allowed_path_variables, including ${HOME}, ${DESKTOP}, ${COURSE_REPOSITORY}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, and ${TEMP}. Semantic validation must reject unknown placeholders, expand approved variables, canonicalize the result, and confirm approved path boundaries before use."
     },
     "uriHttps": {
       "type": "string",
@@ -144,29 +861,6 @@
         "$ref": "#/$defs/adapterId"
       },
       "uniqueItems": true
-    },
-    "course": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "course_id",
-        "course_title",
-        "environment_name"
-      ],
-      "properties": {
-        "course_id": {
-          "type": "string",
-          "const": "IT 140"
-        },
-        "course_title": {
-          "type": "string",
-          "const": "Introduction to Scripting"
-        },
-        "environment_name": {
-          "type": "string",
-          "const": "IT 140 Course IDE"
-        }
-      }
     },
     "control": {
       "type": "object",
@@ -397,23 +1091,17 @@
       ],
       "properties": {
         "course_root": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/pathTemplate"
-            },
-            {
-              "const": "${HOME}/it140"
-            }
+          "$ref": "#/$defs/pathTemplate",
+          "description": "Portable template for a course's local repository root. The repository name comes from course.repository_name. Resolve against the selected environment and the actual clone location before making changes.",
+          "examples": [
+            "${HOME}/Repos/${COURSE_REPOSITORY}"
           ]
         },
         "script_root": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/pathTemplate"
-            },
-            {
-              "const": "${COURSE_ROOT}/scripts"
-            }
+          "$ref": "#/$defs/pathTemplate",
+          "description": "Approved automation script directory. This schema does not require a particular course's script folder layout.",
+          "examples": [
+            "${COURSE_ROOT}/scripts"
           ]
         },
         "minimum_free_space_bytes": {
@@ -442,7 +1130,8 @@
               "COURSE_ROOT",
               "SCRIPT_ROOT",
               "LOG_DIR",
-              "TEMP"
+              "TEMP",
+              "COURSE_REPOSITORY"
             ]
           },
           "minItems": 6,
@@ -471,6 +1160,11 @@
             {
               "contains": {
                 "const": "TEMP"
+              }
+            },
+            {
+              "contains": {
+                "const": "DESKTOP"
               }
             }
           ]
@@ -532,7 +1226,8 @@
             "ide",
             "ide_extension",
             "external_service_client"
-          ]
+          ],
+          "description": "Kind of software implementing this capability. ide and ide_extension refer to actual IDE products and their extensions, such as PyCharm or Visual Studio; they do not name the whole CDE."
         },
         "student_use": {
           "type": "string",
@@ -548,82 +1243,16 @@
         }
       }
     },
-    "requiredCapabilityDefinition": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/capabilityDefinition"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "required": {
-              "const": true
-            }
-          }
-        }
-      ]
-    },
     "capabilityCatalog": {
       "type": "object",
-      "minProperties": 12,
-      "required": [
-        "version_control_system",
-        "source_hosting_client",
-        "programming_language_runtime",
-        "test_runner",
-        "coverage_reporter",
-        "source_code_ide",
-        "language_support",
-        "code_quality_tool",
-        "diagram_support",
-        "pseudocode_support",
-        "spell_checker",
-        "file_viewer"
-      ],
       "propertyNames": {
         "$ref": "#/$defs/identifier"
       },
-      "properties": {
-        "version_control_system": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "source_hosting_client": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "programming_language_runtime": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "test_runner": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "coverage_reporter": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "source_code_ide": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "language_support": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "code_quality_tool": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "diagram_support": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "pseudocode_support": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "spell_checker": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        },
-        "file_viewer": {
-          "$ref": "#/$defs/requiredCapabilityDefinition"
-        }
-      },
       "additionalProperties": {
         "$ref": "#/$defs/capabilityDefinition"
-      }
+      },
+      "minProperties": 1,
+      "description": "SCB or resolved capability catalog. Each capability declares whether it is required. No language, IDE, testing tool, or programming-course capability is mandatory merely because of this schema."
     },
     "product": {
       "type": "object",
@@ -653,7 +1282,8 @@
             "ide",
             "ide_extension",
             "external_service_client"
-          ]
+          ],
+          "description": "Kind of the concrete product. Preserve IDE terminology for an actual IDE product or extension; CDE names the complete course environment."
         },
         "capability_roles": {
           "type": "array",
@@ -779,7 +1409,8 @@
             "ide_marketplace",
             "source_repository",
             "direct_download"
-          ]
+          ],
+          "description": "Distribution channel for concrete products. ide_marketplace refers to a particular IDE's extension marketplace."
         },
         "base_uri": {
           "$ref": "#/$defs/uriHttps"
@@ -985,13 +1616,13 @@
     },
     "providerProfileCatalog": {
       "type": "object",
-      "minProperties": 1,
       "propertyNames": {
         "$ref": "#/$defs/identifier"
       },
       "additionalProperties": {
         "$ref": "#/$defs/providerProfile"
-      }
+      },
+      "description": "Service provider profiles. This catalog may be empty when no selected product needs an external provider."
     },
     "osRelease": {
       "type": "object",
@@ -1118,9 +1749,9 @@
           "$ref": "#/$defs/verification"
         }
       },
-      "description": "Platform support package that is not itself a course IDE capability. Course IDE products must be represented under course_ide_bindings."
+      "description": "Platform support package that is not itself a Course Development Environment capability. Course Development Environment products must be represented under cde_bindings."
     },
-    "courseIdeBinding": {
+    "cdeBinding": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -1193,83 +1824,15 @@
         }
       ]
     },
-    "requiredCourseIdeBinding": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/courseIdeBinding"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "required": {
-              "const": true
-            }
-          }
-        }
-      ]
-    },
-    "courseIdeBindings": {
+    "cdeBindings": {
       "type": "object",
-      "minProperties": 12,
-      "required": [
-        "version_control_system",
-        "source_hosting_client",
-        "programming_language_runtime",
-        "test_runner",
-        "coverage_reporter",
-        "source_code_ide",
-        "language_support",
-        "code_quality_tool",
-        "diagram_support",
-        "pseudocode_support",
-        "spell_checker",
-        "file_viewer"
-      ],
       "propertyNames": {
         "$ref": "#/$defs/identifier"
       },
-      "properties": {
-        "version_control_system": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "source_hosting_client": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "programming_language_runtime": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "test_runner": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "coverage_reporter": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "source_code_ide": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "language_support": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "code_quality_tool": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "diagram_support": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "pseudocode_support": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "spell_checker": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        },
-        "file_viewer": {
-          "$ref": "#/$defs/requiredCourseIdeBinding"
-        }
-      },
       "additionalProperties": {
-        "$ref": "#/$defs/courseIdeBinding"
+        "$ref": "#/$defs/cdeBinding"
       },
-      "description": "Concrete product bindings for course capabilities. These entries are separate from os_packages so platform prerequisites cannot be confused with the official course IDE."
+      "description": "Concrete product bindings for capabilities in a Course Development Environment (CDE). Keep operating-system support packages in os_packages. Semantic validation checks required capabilities against the final enabled platform and deployment configuration."
     },
     "platform": {
       "type": "object",
@@ -1284,7 +1847,7 @@
         "script",
         "package_manager",
         "os_packages",
-        "course_ide_bindings"
+        "cde_bindings"
       ],
       "properties": {
         "display_name": {
@@ -1299,7 +1862,7 @@
         },
         "reference_platform": {
           "type": "boolean",
-          "description": "True for the platform implementation that contains the approved reference deployment profile. Semantic validation requires exactly one enabled reference platform."
+          "description": "True for the platform implementation containing the approved reference deployment profile. Exactly one enabled reference platform is required in each complete SCB or resolved configuration."
         },
         "platform_adapter_id": {
           "$ref": "#/$defs/adapterId"
@@ -1388,10 +1951,10 @@
           "additionalProperties": {
             "$ref": "#/$defs/osPackage"
           },
-          "description": "Operating-system-specific prerequisites and support utilities. Do not list official course IDE products here."
+          "description": "Operating-system-specific prerequisites and support utilities. Do not list official Course Development Environment products here."
         },
-        "course_ide_bindings": {
-          "$ref": "#/$defs/courseIdeBindings"
+        "cde_bindings": {
+          "$ref": "#/$defs/cdeBindings"
         },
         "restart_policy_id": {
           "$ref": "#/$defs/identifier"
@@ -1619,9 +2182,10 @@
           "enum": [
             "local_unmanaged_environment",
             "provider_baseline_master",
-            "it140_course_master",
+            "course_master",
             "initialized_environment"
-          ]
+          ],
+          "description": "Course-independent starting state. course_master replaces the legacy course-specific state name."
         },
         "ordered_actions": {
           "type": "array",
@@ -1712,7 +2276,7 @@
           "if": {
             "properties": {
               "starting_state_id": {
-                "const": "it140_course_master"
+                "const": "course_master"
               }
             },
             "required": [
@@ -1758,7 +2322,7 @@
           }
         }
       ],
-      "description": "Declarative, non-executable lifecycle sequence selected from deployment profile, operating role, and starting state."
+      "description": "Declarative, non-executable lifecycle sequence selected from deployment profile, operating role, and starting state. Applies to any STEM course."
     },
     "lifecycleWorkflowCatalog": {
       "type": "object",
@@ -2031,7 +2595,7 @@
           "uniqueItems": true
         },
         "remove_after_release": {
-          "$ref": "#/$defs/automationRelease"
+          "$ref": "#/$defs/semanticVersion"
         },
         "reason": {
           "type": "string",
@@ -2186,6 +2750,11 @@
       "type": "string",
       "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-([0-2][0-9]|3[01])-([01][0-9]|2[0-3])-[0-5][0-9]$",
       "description": "Local version date-time group in YYYY-MM-DD-HH-MM format using a 24-hour clock. Semantic validation must confirm that the calendar date is valid."
+    },
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
+      "description": "Semantic Versioning 2.0.0 version with optional pre-release and build metadata."
     }
   }
 }

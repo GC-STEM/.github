@@ -1,6 +1,7 @@
 name: Report a problem
 description: Report something that did not work as expected.
 title: "[Problem] "
+labels: ["Bug", "Needs Triage"]
 body:
   - type: dropdown
     id: submitter

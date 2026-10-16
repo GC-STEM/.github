@@ -1,0 +1,20 @@
+# Turn off blank issues: Always pair your templates with a config.yml that disables blank issues so users don't bypass your structured formats.
+
+blank_issues_enabled: false
+
+# Pre-assign metadata: Use your templates to automatically apply basic labels (bug, enhancement) to help keep your triage workflow automated.
+
+# Control template order: If you want your bug report to always appear first, use alphanumeric naming conventions on your files (e.g., 01-bug-report.yml, 02-feature-request.yml).
+
+contact_links:
+  - name: 🙋 Academic Support
+    url: https://myapps.microsoft.com/signin/00b02d3d-d1f9-40dc-b7e0-a4c4f512c5b4?tenantId=2baef15b-b8de-423f-9d8a-46f3686d8848
+    about: For all academic support needs, please use the official Microsoft Apps portal for your institution.
+  - name: 🏫 Your Brightspace Course
+    url: https://learn.snhu.edu/d2l/home
+    about: For all course General Questions, assignment guidance, grading inquiries, and instructor communication, please use the official course platform.
+  - name: 🛠️ IT Service Desk
+    url: https://snhu.service-now.com/sp
+    about: For all technical issues related to the course platform, please contact the IT Service Desk.
+
+
