@@ -1,0 +1,69 @@
+name: 💡 Feature Request
+description: Suggest an improvement to repository content, documentation, or tooling.
+title: "[Feature Request]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to suggest a new feature or improvement.
+        For assignment guidance, debugging help, or grading questions, use your course LMS.
+
+  - type: checkboxes
+    id: existing-requests
+    attributes:
+      label: Existing Requests
+      options:
+        - label: I searched the repository's open and closed issues for similar requests.
+          required: true
+
+  - type: textarea
+    id: affected-content
+    attributes:
+      label: Affected Content or Tool
+      description: Identify the file, page, workflow, or tool you want to improve.
+      placeholder: Include a file path or full URL, or describe where the feature would belong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Need
+      description: Explain the limitation and who would benefit from addressing it.
+      placeholder: Describe what you are trying to accomplish and what currently makes it difficult.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed Change
+      description: Describe the feature or improvement you would like.
+      placeholder: Explain how the proposed change would work for someone using the repository.
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Expected Outcome
+      description: What should someone be able to do after this change?
+      placeholder: Give a concrete example or list observable outcomes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any other approaches or workarounds you considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add relevant examples, full URLs, screenshots, or related issue numbers.
+    validations:
+      required: false
