@@ -201,7 +201,6 @@ Delete entries that are not used. Add other relevant project documents as needed
 
 * [Requirements](./10_requirements.md)
 * [Design](./20_design.md)
-* [Architecture](./21_architecture.md)
 * [Diagram](./23_diagram.drawio)
 * [Pseudocode](./26_pseudocode.txt)
 * [Program Design Language](./29_pdl.md)
