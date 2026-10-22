@@ -1,10 +1,11 @@
 {
   "required_files": [
-    "ISSUE_TEMPLATE/report-a-problem.yml",
-    "ISSUE_TEMPLATE/report-accessibility-barrier.yml",
-    "ISSUE_TEMPLATE/request-an-improvement.yml",
+    "ISSUE_TEMPLATE/a11y-report.yml",
+    "ISSUE_TEMPLATE/bug-report.yml",
+    "ISSUE_TEMPLATE/config.yml",
+    "ISSUE_TEMPLATE/feature-request.yml",
     "profile/README.md",
-    "PULL_REQUEST_TEMPLATE/pull_request_template.md",
+    "PULL_REQUEST_TEMPLATE/default.md",
     ".editorconfig",
     ".gitattributes",
     ".gitignore",

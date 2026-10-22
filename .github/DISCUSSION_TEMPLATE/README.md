@@ -1,26 +1,28 @@
 # Discussion Category Templates
 
-You can customize the templates that are available for community members to use when they open new discussions in your repository.
+Discussion category forms collect structured information when someone starts a discussion in your repository.
 
 ## About discussion category forms
 
-You can encourage community members to include specific, structured information in their discussions by using discussion forms in your repository. With discussion category forms, you can create discussion templates that have customizable web form fields. Discussion forms are written in YAML using the GitHub form schema. For more information, see [Syntax for GitHub's form schema](/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema).
+Define forms in YAML using [GitHub's form schema](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema). The schema supports configurable input fields and validation.
 
-To use a discussion category form in your repository, you must create a new file and add it to the `/.github/DISCUSSION_TEMPLATE/` folder in your repository.
+Store each form in the repository's `.github/DISCUSSION_TEMPLATE/` directory.
 
-You can also create discussion category forms for your organization. For more information, see [Creating a default community health file](/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file).
+Organization-wide forms can be supplied through a public `.github` repository. See [Creating a default community health file](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file).
 
-Discussion category forms are not supported for polls. For more information about polls, see [About discussions](/en/discussions/collaborating-with-your-community-using-discussions/about-discussions).
+Polls do not support discussion category forms. See [About discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions).
 
-Here is the rendered version of the issue form.
+The following screenshot illustrates a rendered discussion form:
 
-![Screenshot of a rendered discussion category form.](/assets/images/help/discussions/discussion-category-form-sample.png)
+![Example discussion form rendered on GitHub.](https://docs.github.com/assets/cb-83694/images/help/discussions/discussion-category-form-sample.png)
 
 ## How to create discussion category forms
 
-People with write access to a repository can create a discussion category form.
+You need repository write access to create a form.
 
-1. Navigate to the repository where you want to create a discussion category form.
-2. In your repository, create a file called `/.github/DISCUSSION_TEMPLATE/FORM-NAME.yml`, replacing `FORM-NAME` with the name for your discussion category form. The name must correspond with the slug for one of your discussion categories. For example, the template for the "Announcements" category should be `.github/DISCUSSION_TEMPLATE/announcements.yml`. For more information about creating new files on GitHub, see [Creating new files](/en/repositories/working-with-files/managing-files/creating-new-files).
-3. In the body of the new file, type the contents of your discussion category form. For more information, see [Syntax for discussion category forms](/en/discussions/managing-discussions-for-your-community/syntax-for-discussion-category-forms).
-4. Commit your file to the default branch of your repository. For more information, see [Creating new files](/en/repositories/working-with-files/managing-files/creating-new-files).
+1. Open the target repository.
+2. Create `.github/DISCUSSION_TEMPLATE/FORM-NAME.yml`. Replace `FORM-NAME` with the discussion category's slug. For example, use `announcements.yml` for an "Announcements" category. See [Creating new files](https://docs.github.com/en/repositories/working-with-files/managing-files/creating-new-files).
+3. Add the YAML form definition. See [Syntax for discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/syntax-for-discussion-category-forms).
+4. Commit the completed file to the repository's default branch.
+
+For the complete procedure, see [Creating discussion category forms](https://docs.github.com/en/discussions/managing-discussions-for-your-community/creating-discussion-category-forms).
