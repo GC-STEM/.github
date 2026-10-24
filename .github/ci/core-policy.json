@@ -24,7 +24,6 @@
     ".github/ISSUE_TEMPLATE/bug-report.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
     ".github/ISSUE_TEMPLATE/feature-request.yml",
-    ".github/manifest/manifest.schema.json",
     ".github/PULL_REQUEST_TEMPLATE/default.md",
     ".github/workflows/tests.yml",
     ".github/workflows/readme-commands.yml",
