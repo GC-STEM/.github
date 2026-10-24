@@ -30,9 +30,8 @@
     ".github/workflows/readme-commands.yml",
     ".github/workflows/internal-links.yml",
     ".github/workflows/external-links.yml",
-    "manifest/manifest.schema.json",
-    "manifest/scb_manifest.json",
-    "profile/README.md"
+    "profile/README.md",
+    "schemas/manifest.schema.json"
   ],
   "check_eol": false
 }
