@@ -3,7 +3,7 @@
 Continuous integration (CI) checks changes to
 [GC-STEM/.github](https://github.com/GC-STEM/.github). These workflows validate
 this repository's community standards, profile, templates, and automation.
-Course configuration and assignment tests belong in cs000 or the applicable
+Course configuration and assignment tests belong in crs000 or the applicable
 course repository.
 
 ## Workflows
@@ -99,7 +99,7 @@ PowerShell, indented, and nested examples are outside the Bash check.
 ## Maintenance
 
 Propose STEM-wide standards here and CS configuration in
-[cs000](https://github.com/GC-STEM/cs000). Keep required course materials in
+[crs000](https://github.com/GC-STEM/crs000). Keep required course materials in
 course repositories; wiki links must use absolute URLs. Respect institutional
 approval processes for legal text, branding, and instructional requirements.
 

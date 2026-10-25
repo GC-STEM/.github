@@ -20,7 +20,7 @@ record a version and release date only when a release is published.
   from GC-STEM/_core to GC-STEM/.github.
 - **Validation:** Require this repository's community files, organization
   profile, templates, and CI files. Course editor, IDE, and Git configuration
-  remain the responsibility of cs000 and downstream course repositories.
+  remain the responsibility of crs000 and downstream course repositories.
 - **Ownership:** Updated CODEOWNERS paths for community standards and the
   organization profile. Existing team names are retained.
 
@@ -37,4 +37,4 @@ record a version and release date only when a release is published.
 
 The IT-140 manifest schema and image assets are retained unchanged. Tracked
 Python bytecode is excluded from the update package; remove the existing
-tracked cache separately. 
+tracked cache separately.

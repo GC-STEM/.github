@@ -183,7 +183,7 @@ def validate(root: Path, policy: dict) -> tuple[list[str], list[str]]:
         except (ValueError, yaml.YAMLError) as error:
             errors.append(f"{name}: invalid configuration: {error}")
 
-    # Course configuration is managed in cs000, not inherited from .github.
+    # Course configuration is managed in crs000, not inherited from .github.
     # Keep EoL checks enabled by default for repositories that use them.
     if policy.get("check_eol", True):
         try:

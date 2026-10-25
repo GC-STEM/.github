@@ -40,9 +40,9 @@ GC-STEM uses five layers with distinct ownership and responsibilities.
 | :---: | ----- | ---------- | ------- | -------- | ---------- |
 | 1 | GC-STEM | [`.github.git`](https://github.com/GC-STEM/.github) | Default community standards and templates for GC-STEM repositories | None | Public |
 | 1 | GC-STEM | [`.github.wiki`](https://github.com/GC-STEM/.github/wiki) | Supplemental documentation shared across STEM programs | None | Public |
-| 2 | GC-STEM | [`cs000.git`](https://github.com/GC-STEM/cs000) | Master template and configuration for CS course repositories | `.github.git` (community standards only) | Public |
-| 2 | GC-STEM | [`cs000.wiki`](https://github.com/GC-STEM/cs000/wiki) | Supplemental documentation shared across CS courses | None | Public |
-| 3 | GC-STEM | `csXXX.git` | Course content, required documentation, and configuration (`cs100`–`cs999`) | `GC-STEM/cs000.git` (template) | Public |
+| 2 | GC-STEM | [`crs000.git`](https://github.com/GC-STEM/crs000) | Master template and configuration for CS course repositories | `.github.git` (community standards only) | Public |
+| 2 | GC-STEM | [`crs000.wiki`](https://github.com/GC-STEM/crs000/wiki) | Supplemental documentation shared across CS courses | None | Public |
+| 3 | GC-STEM | `csXXX.git` | Course content, required documentation, and configuration (`cs100`–`cs999`) | `GC-STEM/crs000.git` (template) | Public |
 | 3 | GC-STEM | `csXXX.wiki` | Course-specific supplemental documentation | None | Public |
 | 4 | Student | `csXXX.git` | Student-owned online copy of a course repository | `GC-STEM/csXXX.git` | Private |
 | 5 | Student | `~/Repos/csXXX` | Local clone of the student's repository | `student/csXXX.git` | Local |
@@ -69,7 +69,7 @@ that do not define their own.
 - **Local copies:** GitHub displays inherited defaults without adding
   them to the receiving repository. They are not included in its
   clones or downloads.
-- **CS course templates:** `cs000` supplies initial course structure
+- **CS course templates:** `crs000` supplies initial course structure
   and configuration. Later changes do not propagate automatically.
 - **Wikis:** Maintained independently and never inherited automatically.
 - **Student-owned repositories:** GC-STEM defaults do not automatically
@@ -95,8 +95,8 @@ Changes belong in the repository that owns the affected resource:
 
 - **STEM-wide community standards:** `.github`
 - **Shared STEM documentation:** `.github.wiki`
-- **CS master templates and configuration:** `cs000`
-- **Shared CS documentation:** `cs000.wiki`
+- **CS master templates and configuration:** `crs000`
+- **Shared CS documentation:** `crs000.wiki`
 - **Course-specific resources:** Applicable `csXXX` repository or wiki
 - **Student work:** Student-owned repositories and development environments
 
