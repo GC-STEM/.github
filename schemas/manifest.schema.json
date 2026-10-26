@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/manifest.schema.json",
-  "title": "GC-STEM Course Automation Manifest",
-  "description": "Version 3.0 structural contract for the STEM Computing Baseline (SCB) and every STEM course's Course Development Environment (CDE). Validate https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/scb_manifest.json and course_manifest.json, if present, with this schema. The SCB defines common tools, versions, sources, platforms, deployment profiles, lifecycle workflows, managed settings, and managed assets. The course manifest identifies the course, pins its local SCB release, and declares optional additions and explicitly permitted overrides. An IDE is a concrete software product within the CDE.",
-  "$comment": "Two-part composition is an automation responsibility, not a JSON Schema merge feature. The only input files are https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/.github/manifest/scb_manifest.json and .github/manifest/course_manifest.json. Keep canonical schema and SCB releases in GC-STEM/.github and distribute reviewed, versioned local copies with course repositories. Do not silently fetch a changing main branch or inherit repository files through GitHub community defaults. Required resolver order: (1) Read course manifest and local SCB bytes without running executable content. Reject duplicate JSON keys in both files. (2) Structurally validate both inputs; check schema compatibility, SCB identity/version, the exact-byte SHA-256 pin, approval state, and trusted release provenance using policy supplied by the approved automation. A checksum or self-declared approved status alone does not establish trust. (3) Deep-copy the SCB configuration catalogs, policy, and logging. Add course catalog entries by stable ID, then apply platform_extensions to baseline or newly added platforms. Existing IDs are conflicts, including identical repeated entries. Arrays in newly added or replaced objects are atomic values, not append/union operations. (4) For each course override, require a named baseline permission with exactly the same target, a matching course allowlist if present, and an existing baseline target. Reject duplicate or ancestor/descendant override targets, missing targets, additions overlapping a replaced object, and any attempt to override metadata or permissions. Replace the complete target object. A schema-valid course must not be allowed to authorize its own exceptions. (5) Assemble the resolved configuration with course identity/control, baseline reference/baseline_control, and the SCB automation release; validate #/$defs/resolvedConfiguration. (6) Perform semantic validation before any prepare/install/configure/update action: confirm all referenced products, capabilities, sources, retry profiles, provider profiles, settings profiles, platforms, deployment profiles, workflows, and adapters exist and are approved; confirm required capabilities have coherent required bindings on each enabled platform; validate deployment release, architecture, roles, states, action order, update mode, workflow authorizations, and success transitions; require exactly one enabled reference platform and exactly one enabled reference deployment profile linked to that platform; check source integrity and digest lengths, calendar dates, product/version/dependency compatibility, duplicate/conflicting settings and managed destinations, path variables and canonical approved boundaries, obsolete-component safety, secrets and personal values. Unresolved conflicts are fatal; never resolve them by file order or last-writer-wins behavior. Structural validation alone cannot compare files, match dynamic IDs/permission targets, prove authorization or integrity, or implement these semantic checks. These checks must be implemented in approved automation, not inferred from this schema's acceptance of a document.",
+  "$id": "https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/schemas/manifest.schema.json",
+  "title": "GC-STEM SCB and CDE Manifest",
+  "description": "Version 3.0 structural contract for the shared STEM Computing Baseline (SCB) in atlas/.config/scb_manifest.json and the required .config/cde_manifest.json in every STEM course repository. The SCB establishes common capabilities, supported component requirements, sources, platforms, workflows, settings, and assets. Each CDE manifest identifies its course and explicitly declares additions, or an empty additions object. All courses consume the selected local Atlas checkout; no per-course baseline snapshot, exact SCB release, checksum pin, or identical software version across platforms is required. An IDE is a concrete software product within the complete CDE.",
+  "$comment": "Composition and environment verification are automation responsibilities, not JSON Schema merge features. Canonical ownership: GC-STEM/.github owns schemas/manifest.schema.json; GC-STEM/atlas owns .config/scb_manifest.json and shared automation; each course owns its required .config/cde_manifest.json. Resolve ATLAS_ROOT from the selected Atlas checkout and COURSE_ROOT from the selected course checkout, rather than assuming clone directory names or the process working directory. Required resolver order: (1) Require and read the course manifest and ${ATLAS_ROOT}/.config/scb_manifest.json without executing manifest content; reject duplicate JSON keys. A missing CDE file is an error, including for SCB-only courses. (2) Validate both inputs, schema support, baseline identity, approval state, and release provenance using policy supplied by the approved automation. A self-declared approved status alone does not establish trust. Baseline versions are release/reporting metadata, not equality gates; do not require identical baseline bytes or product versions across courses, platforms, or students, and do not fetch, update, or switch Atlas merely to validate a course. (3) Deep-copy the SCB configuration catalogs, policy, and logging. Add course catalog entries by stable ID, then apply platform_extensions to baseline or newly added platforms. Existing IDs are conflicts, including identical repeated entries. Arrays in newly added or replaced objects are atomic values, not append/union operations. (4) For each override, require a named baseline permission with exactly the same target, a matching course allowlist if present, and an existing baseline target. Reject duplicate or ancestor/descendant override targets, missing targets, additions overlapping a replaced object, and attempts to override metadata or permissions. Replace the complete target object. A course cannot authorize its own exceptions. (5) Assemble the resolved CDE with course identity/control, baseline reference, baseline_release/baseline_control, the SCB automation release, and course-owned environment declarations; use an empty environment map when none are declared. Validate #/$defs/resolvedConfiguration. Record the exact Atlas release/revision and actual component versions used for troubleshooting without treating those recorded values as course pins. (6) Before any changing action, validate referenced products, capabilities, sources, retries, providers, settings, environments, platforms, deployments, workflows, and adapters; validate source integrity, calendar dates, compatible component requirements, duplicate/conflicting settings and asset destinations, approved path boundaries, obsolete-component safety, and secrets/personal values. Verify required capabilities and applicable component version rules, not equality with a reference machine. Preserve compatible installations; install missing requirements, repair unmet requirements, and never downgrade automatically solely to match the reference platform. managed_latest permits refreshing approved software only during an explicitly selected update action; verification must not demand that every installation be the newest release. (7) Resolve each course environment beneath COURSE_ROOT and confirm its runtime capability/binding. Environment-bound packages must be installed and verified with that environment's own interpreter/package manager, never global pip or another course's environment. Two course checkouts must not resolve to the same managed environment directory. (8) Validate deployment releases, architectures, roles, states, action order, update mode, workflow authorizations, success transitions, exactly one enabled reference platform, and exactly one enabled reference deployment linked to it. Reference environments are qualification examples, not requirements to reproduce identical machines. Unresolved conflicts are fatal; never use file order or last-writer-wins. Structural validation cannot compare files, resolve dynamic IDs, prove authorization/integrity, verify installed tools, or implement these semantic checks.",
   "type": "object",
   "oneOf": [
     {
@@ -23,7 +23,7 @@
           "format": "uri-reference",
           "minLength": 1,
           "maxLength": 2048,
-          "description": "Optional editor/validator association. Use ./manifest.schema.json for a local schema copy or an approved immutable schema URL. This property does not load or merge the SCB manifest."
+          "description": "Optional editor/validator association with the shared GC-STEM schema. This reference validates structure; it does not load or merge the SCB manifest."
         },
         "schema_version": {
           "$ref": "#/$defs/schemaVersion"
@@ -105,7 +105,7 @@
         "logging",
         "override_permissions"
       ],
-      "description": "Complete shared STEM Computing Baseline stored as scb_manifest.json. It contains no course identity and has no parent baseline. Catalog requirements here are structural; approved tool selections and required capability IDs are declared in this manifest's data."
+      "description": "Shared SCB stored only in the selected Atlas checkout at .config/scb_manifest.json. It has no course identity or parent baseline. Its data selects common capabilities and compatible component requirements, without imposing identical machine versions."
     },
     "courseManifest": {
       "type": "object",
@@ -116,7 +116,7 @@
           "format": "uri-reference",
           "minLength": 1,
           "maxLength": 2048,
-          "description": "Optional editor/validator association. Use ./manifest.schema.json for a local schema copy or an approved immutable schema URL. This property does not load or merge the SCB manifest."
+          "description": "Optional editor/validator association with the shared GC-STEM schema. This reference validates structure; it does not load or merge the SCB manifest."
         },
         "schema_version": {
           "$ref": "#/$defs/schemaVersion"
@@ -143,6 +143,9 @@
             "$ref": "#/$defs/override"
           },
           "uniqueItems": true
+        },
+        "course_environments": {
+          "$ref": "#/$defs/courseEnvironmentCatalog"
         }
       },
       "required": [
@@ -150,9 +153,11 @@
         "manifest_type",
         "course",
         "baseline",
-        "control"
+        "control",
+        "additions",
+        "overrides"
       ],
-      "description": "Required course_manifest.json for every STEM course. Omit additions and overrides when the course uses only the SCB. Missing additions means no additions; missing overrides means no overrides. JSON Schema defaults do not supply manifest data."
+      "description": "Required .config/cde_manifest.json in every STEM course repository. Set additions to {} and overrides to [] when the course uses only the SCB. Course-owned environments are optional and declared only when required by this course. JSON Schema defaults do not supply data."
     },
     "resolvedConfiguration": {
       "type": "object",
@@ -218,6 +223,12 @@
         },
         "logging": {
           "$ref": "#/$defs/logging"
+        },
+        "baseline_release": {
+          "$ref": "#/$defs/baselineIdentity"
+        },
+        "course_environments": {
+          "$ref": "#/$defs/courseEnvironmentCatalog"
         }
       },
       "required": [
@@ -240,9 +251,11 @@
         "managed_settings",
         "managed_assets",
         "obsolete_components",
-        "logging"
+        "logging",
+        "baseline_release",
+        "course_environments"
       ],
-      "description": "In-memory CDE configuration produced by the approved resolver. Validate explicitly against #/$defs/resolvedConfiguration after composing the two input manifests and before changing the environment. This is not a third input manifest or a required repository file. control is the course approval/provenance record; baseline_control is the SCB record. automation_release and its date-time group come from the SCB."
+      "description": "In-memory complete CDE produced by the approved resolver. Validate explicitly against #/$defs/resolvedConfiguration before changing the environment. This is not a third input manifest or required repository file. control is the course record; baseline_control and baseline_release record the shared SCB actually read. The SCB supplies automation_release and its date-time group. Course environments come from the course manifest or an empty map. Recorded releases support diagnostics and do not impose equality or per-course SCB pins."
     },
     "baselineIdentity": {
       "type": "object",
@@ -265,7 +278,7 @@
         "display_name",
         "version"
       ],
-      "description": "Identity and independently versioned release of the STEM Computing Baseline (SCB). This is separate from schema_version and automation_release."
+      "description": "Identity and release metadata of the common SCB. version is independent of schema_version and automation_release and is recorded for support; courses do not have to pin this version."
     },
     "baselineReference": {
       "type": "object",
@@ -273,29 +286,19 @@
       "properties": {
         "path": {
           "type": "string",
-          "const": "./scb_manifest.json",
-          "description": "Local file beside course_manifest.json in the repository's .github/manifest folder. Resolve relative to course_manifest.json, never the process working directory. Remote fetching and recursive baseline inheritance are not part of this contract."
+          "const": "${ATLAS_ROOT}/.config/scb_manifest.json",
+          "description": "Shared SCB in the selected local Atlas checkout. Resolve ATLAS_ROOT from setup configuration or the selected checkout, not from a guessed home/sibling path. Validation does not fetch or update Atlas."
         },
         "baseline_id": {
           "type": "string",
           "const": "stem_computing_baseline"
-        },
-        "version": {
-          "$ref": "#/$defs/semanticVersion"
-        },
-        "sha256": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{64}$",
-          "description": "SHA-256 of the exact bytes of the referenced local SCB manifest, before JSON parsing. Semantic validation must compare this digest and the referenced baseline_id, baseline version, and schema_version with the loaded SCB manifest. Copy the SCB file without newline or encoding transformations, or deliberately update the pin after an approved change."
         }
       },
       "required": [
         "path",
-        "baseline_id",
-        "version",
-        "sha256"
+        "baseline_id"
       ],
-      "description": "Required, version-pinned local SCB dependency for every course. A schema reference is not a manifest dependency and does not merge data."
+      "description": "Shared Atlas SCB dependency for every course. No per-course SCB copy, exact baseline version, or file digest is required. Component-specific requirements are expressed with version rules in the relevant products/bindings, not baseline equality constraints."
     },
     "course": {
       "type": "object",
@@ -325,7 +328,7 @@
         "environment_name",
         "repository_name"
       ],
-      "description": "Course identity belongs in each course's course_manifest.json, never in the reusable SCB manifest."
+      "description": "Course identity belongs in each course's .config/cde_manifest.json, never in the reusable SCB."
     },
     "courseId": {
       "type": "string",
@@ -457,8 +460,7 @@
           "minProperties": 1
         }
       },
-      "description": "Optional new catalog entries and platform package/binding additions. At least one nonempty section is required when additions is present. Catalogs are maps keyed by stable IDs, not arrays. Existing IDs, duplicate managed-setting destinations/keys, and conflicting managed assets are errors; there is no implicit last-writer-wins merge.",
-      "minProperties": 1
+      "description": "Required object of new course catalog entries and platform package/binding additions. {} explicitly means no additions. Individual sections must be nonempty when present. Catalogs are maps keyed by stable IDs, not arrays. Existing IDs, duplicate managed-setting destinations/keys, and conflicting assets are errors; there is no last-writer-wins merge."
     },
     "platformExtension": {
       "type": "object",
@@ -515,7 +517,7 @@
           },
           "minItems": 1,
           "uniqueItems": true,
-          "description": "Optional course allowlist. If omitted, this permission applies to any course using this exact approved SCB release. Course IDs are matched exactly, including punctuation and case."
+          "description": "Optional course allowlist. If omitted, the permission applies to any course consuming this approved baseline permission. Course IDs are matched exactly, including punctuation/case."
         },
         "approval_record": {
           "$ref": "#/$defs/uriHttps"
@@ -826,7 +828,7 @@
       "minLength": 1,
       "maxLength": 1024,
       "pattern": "^(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$))(?!.*\\$\\{(?:PASSWORD|TOKEN|SECRET|PRIVATE_KEY|EMAIL)\\}).+$",
-      "description": "Portable path template using only variables permitted by policy.allowed_path_variables, including ${HOME}, ${DESKTOP}, ${COURSE_REPOSITORY}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, and ${TEMP}. Semantic validation must reject unknown placeholders, expand approved variables, canonicalize the result, and confirm approved path boundaries before use."
+      "description": "Portable path template using variables permitted by policy.allowed_path_variables: ${HOME}, ${DESKTOP}, ${COURSE_REPOSITORY}, ${ATLAS_ROOT}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, and ${TEMP}. Resolve Atlas/course roots from actual selected checkouts. Semantic validation rejects unknown placeholders, expands approved variables, canonicalizes results, and confirms approved boundaries."
     },
     "uriHttps": {
       "type": "string",
@@ -964,7 +966,8 @@
             }
           }
         }
-      ]
+      ],
+      "description": "Requirement for an individual component, not a requirement for version equality across courses or platforms. presence_only accepts a usable installed implementation; minimum and compatible_range accept any supported version satisfying that rule. exact is reserved for a documented component-specific need. Preserve an installed version that satisfies the applicable requirement. managed_latest selects approved versions during an explicit update action and does not make newer availability a verification failure."
     },
     "verification": {
       "type": "object",
@@ -984,7 +987,8 @@
             "minLength": 1,
             "maxLength": 120
           },
-          "uniqueItems": true
+          "uniqueItems": true,
+          "description": "Candidate command names for locating the product. A runtime adapter may select one suitable interpreter; it must not require every platform-specific alias to exist."
         },
         "package_identifiers": {
           "$ref": "#/$defs/stringList"
@@ -1040,7 +1044,8 @@
             "network_probe_source_id"
           ]
         }
-      ]
+      ],
+      "description": "Evidence interpreted by the selected adapter. For programming runtimes, discover a usable interpreter and verify its applicable component version rule before falling back to package registration checks. A compatible approved runtime need not have the exact package identifier used by the installation recipe. Required product identity, functionality, integrity, and applicable settings checks still apply."
     },
     "retryProfile": {
       "type": "object",
@@ -1087,21 +1092,22 @@
         "allowed_path_variables",
         "retry_profiles",
         "default_retry_profile_id",
-        "integrity_algorithms"
+        "integrity_algorithms",
+        "version_management"
       ],
       "properties": {
         "course_root": {
           "$ref": "#/$defs/pathTemplate",
-          "description": "Portable template for a course's local repository root. The repository name comes from course.repository_name. Resolve against the selected environment and the actual clone location before making changes.",
+          "description": "Portable discovery/default template for the course checkout. COURSE_ROOT must use the actual selected clone location; repository_name does not force a directory name or path.",
           "examples": [
             "${HOME}/Repos/${COURSE_REPOSITORY}"
           ]
         },
         "script_root": {
           "$ref": "#/$defs/pathTemplate",
-          "description": "Approved automation script directory. This schema does not require a particular course's script folder layout.",
+          "description": "Shared automation directory in the selected Atlas checkout, not a duplicated course script tree. Resolve ATLAS_ROOT before expanding this path.",
           "examples": [
-            "${COURSE_ROOT}/scripts"
+            "${ATLAS_ROOT}/scripts"
           ]
         },
         "minimum_free_space_bytes": {
@@ -1131,10 +1137,11 @@
               "SCRIPT_ROOT",
               "LOG_DIR",
               "TEMP",
-              "COURSE_REPOSITORY"
+              "COURSE_REPOSITORY",
+              "ATLAS_ROOT"
             ]
           },
-          "minItems": 6,
+          "minItems": 7,
           "uniqueItems": true,
           "allOf": [
             {
@@ -1165,6 +1172,11 @@
             {
               "contains": {
                 "const": "DESKTOP"
+              }
+            },
+            {
+              "contains": {
+                "const": "ATLAS_ROOT"
               }
             }
           ]
@@ -1197,6 +1209,30 @@
           },
           "minItems": 1,
           "uniqueItems": true
+        },
+        "version_management": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "strategy": {
+              "type": "string",
+              "const": "satisfy_requirements"
+            },
+            "preserve_compatible_installations": {
+              "type": "boolean",
+              "const": true
+            },
+            "allow_automatic_downgrade": {
+              "type": "boolean",
+              "const": false
+            }
+          },
+          "required": [
+            "strategy",
+            "preserve_compatible_installations",
+            "allow_automatic_downgrade"
+          ],
+          "description": "Establish common usable capabilities. Satisfying installations are preserved; normal setup does not force newest versions or match a reference machine. Install missing components and repair unmet requirements. A conflict requiring downgrade or replacement must be reported for explicit resolution, not silently applied."
         }
       }
     },
@@ -1774,7 +1810,8 @@
           "enum": [
             "system",
             "user",
-            "provider_managed"
+            "provider_managed",
+            "course_environment"
           ]
         },
         "installer_adapter_id": {
@@ -1802,6 +1839,10 @@
         },
         "verification": {
           "$ref": "#/$defs/verification"
+        },
+        "environment_id": {
+          "$ref": "#/$defs/identifier",
+          "description": "ID in the course-owned environment catalog; required exactly for course_environment scope. Semantic validation resolves it before install or verification."
         }
       },
       "allOf": [
@@ -1821,8 +1862,55 @@
               "provider_profile_id"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "installation_scope": {
+                "const": "course_environment"
+              }
+            },
+            "required": [
+              "installation_scope"
+            ]
+          },
+          "then": {
+            "required": [
+              "environment_id"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "environment_id"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "installer_adapter_id": {
+                "const": "python_venv_package"
+              }
+            },
+            "required": [
+              "installer_adapter_id"
+            ]
+          },
+          "then": {
+            "properties": {
+              "installation_scope": {
+                "const": "course_environment"
+              }
+            },
+            "required": [
+              "environment_id"
+            ]
+          }
         }
-      ]
+      ],
+      "description": "Platform-specific product implementation of a capability. Compatible installed versions may differ across platforms. package_identifier selects the installation recipe when installation is needed; it does not require replacing an already approved compatible runtime distributed under another package identifier. course_environment targets a declared per-course environment; python_venv_package requires that scope and must install/verify with the named virtual environment's interpreter instead of global pip."
     },
     "cdeBindings": {
       "type": "object",
@@ -2755,6 +2843,49 @@
       "type": "string",
       "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-((?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
       "description": "Semantic Versioning 2.0.0 version with optional pre-release and build metadata."
+    },
+    "courseEnvironmentCatalog": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/courseEnvironment"
+      },
+      "description": "Optional course-owned environments keyed by stable ID. Omit or use {} when none are needed. These declarations do not add capabilities or install packages by themselves; environment-bound platform bindings name an environment_id."
+    },
+    "courseEnvironment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "python_venv"
+        },
+        "path": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/pathTemplate"
+            },
+            {
+              "pattern": "^\\$\\{COURSE_ROOT\\}/[^/\\\\].*$"
+            }
+          ],
+          "examples": [
+            "${COURSE_ROOT}/.venv"
+          ],
+          "description": "Course-local environment directory. Resolve and canonicalize beneath the actual COURSE_ROOT; reject aliases/symlinks escaping that boundary or sharing another course's environment."
+        },
+        "runtime_capability_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "kind",
+        "path",
+        "runtime_capability_id"
+      ],
+      "description": "An isolated Python virtual environment owned by this course. Use a supported interpreter implementing runtime_capability_id and install/verify packages inside this environment. Its packages may differ from other courses without changing shared tools."
     }
   }
 }
