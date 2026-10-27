@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/schemas/manifest.schema.json",
   "title": "GC-STEM SCB and CDE Manifest",
-  "description": "Version 3.0 structural contract for the shared STEM Computing Baseline (SCB) in atlas/.config/scb_manifest.json and the required .config/cde_manifest.json in every STEM course repository. The SCB establishes common capabilities, supported component requirements, sources, platforms, workflows, settings, and assets. Each CDE manifest identifies its course and explicitly declares additions, or an empty additions object. All courses consume the selected local Atlas checkout; no per-course baseline snapshot, exact SCB release, checksum pin, or identical software version across platforms is required. An IDE is a concrete software product within the complete CDE.",
-  "$comment": "Composition and environment verification are automation responsibilities, not JSON Schema merge features. Canonical ownership: GC-STEM/.github owns schemas/manifest.schema.json; GC-STEM/atlas owns .config/scb_manifest.json and shared automation; each course owns its required .config/cde_manifest.json. Resolve ATLAS_ROOT from the selected Atlas checkout and COURSE_ROOT from the selected course checkout, rather than assuming clone directory names or the process working directory. Required resolver order: (1) Require and read the course manifest and ${ATLAS_ROOT}/.config/scb_manifest.json without executing manifest content; reject duplicate JSON keys. A missing CDE file is an error, including for SCB-only courses. (2) Validate both inputs, schema support, baseline identity, approval state, and release provenance using policy supplied by the approved automation. A self-declared approved status alone does not establish trust. Baseline versions are release/reporting metadata, not equality gates; do not require identical baseline bytes or product versions across courses, platforms, or students, and do not fetch, update, or switch Atlas merely to validate a course. (3) Deep-copy the SCB configuration catalogs, policy, and logging. Add course catalog entries by stable ID, then apply platform_extensions to baseline or newly added platforms. Existing IDs are conflicts, including identical repeated entries. Arrays in newly added or replaced objects are atomic values, not append/union operations. (4) For each override, require a named baseline permission with exactly the same target, a matching course allowlist if present, and an existing baseline target. Reject duplicate or ancestor/descendant override targets, missing targets, additions overlapping a replaced object, and attempts to override metadata or permissions. Replace the complete target object. A course cannot authorize its own exceptions. (5) Assemble the resolved CDE with course identity/control, baseline reference, baseline_release/baseline_control, the SCB automation release, and course-owned environment declarations; use an empty environment map when none are declared. Validate #/$defs/resolvedConfiguration. Record the exact Atlas release/revision and actual component versions used for troubleshooting without treating those recorded values as course pins. (6) Before any changing action, validate referenced products, capabilities, sources, retries, providers, settings, environments, platforms, deployments, workflows, and adapters; validate source integrity, calendar dates, compatible component requirements, duplicate/conflicting settings and asset destinations, approved path boundaries, obsolete-component safety, and secrets/personal values. Verify required capabilities and applicable component version rules, not equality with a reference machine. Preserve compatible installations; install missing requirements, repair unmet requirements, and never downgrade automatically solely to match the reference platform. managed_latest permits refreshing approved software only during an explicitly selected update action; verification must not demand that every installation be the newest release. (7) Resolve each course environment beneath COURSE_ROOT and confirm its runtime capability/binding. Environment-bound packages must be installed and verified with that environment's own interpreter/package manager, never global pip or another course's environment. Two course checkouts must not resolve to the same managed environment directory. (8) Validate deployment releases, architectures, roles, states, action order, update mode, workflow authorizations, success transitions, exactly one enabled reference platform, and exactly one enabled reference deployment linked to it. Reference environments are qualification examples, not requirements to reproduce identical machines. Unresolved conflicts are fatal; never use file order or last-writer-wins. Structural validation cannot compare files, resolve dynamic IDs, prove authorization/integrity, verify installed tools, or implement these semantic checks.",
+  "description": "Version 3.1 structural contract for the shared STEM Computing Baseline (SCB) in atlas/.config/scb_manifest.json and the required .config/cde_manifest.json in every STEM course repository. The SCB establishes common capabilities, supported component requirements, sources, platforms, workflows, settings, and assets. Each CDE manifest identifies its course and explicitly declares additions, or an empty additions object. All courses consume the selected local Atlas checkout; no per-course baseline snapshot, exact SCB release, checksum pin, or identical software version across platforms is required. An IDE is a concrete software product within the complete CDE. Version 3.1 adds deployment-scoped requirements, standalone SCB resolution, noninteractive container/CI workflows, provider-neutral Vagrant launch policy, single-file and multipart box distribution, browser editing entry points, and private faculty-source/student-distribution metadata. New catalog members are optional for existing version 3.1 input shapes; JSON Schema defaults do not create data.",
+  "$comment": "Composition, target selection, launch readiness, authorization, and environment verification are automation responsibilities, not JSON Schema merge features. Canonical ownership remains GC-STEM/.github for the schema, GC-STEM/atlas for the SCB and shared automation, and the selected course for its required CDE file. Required resolver sequence: (1) Select explicit scb or cde mode and the actual Atlas/workspace checkouts. In scb mode read only the Atlas SCB; do not invent course identity or require a course manifest. In cde mode require and read both manifests, including a baseline-only course's CDE file. Reject duplicate JSON keys and unsupported schema versions; never execute manifest content. (2) Check approval/provenance under policy supplied by approved automation. A draft may omit source_revision; no generated draft is a released/approved configuration. A self-declared approval does not establish trust. Preserve compatible installed versions. Baseline releases are support metadata, not equality gates or per-course pins; validation does not fetch/update/switch Atlas. (3) Deep-copy SCB catalogs/policy/logging; add course entries by stable ID then platform_extensions. Duplicate existing IDs are conflicts even when identical. Arrays are atomic values, never implicit unions. Course virtualization policy changes require an existing baseline override permission; additions cannot authorize exceptions. (4) Overrides require matching named baseline permission, exact existing target, and course allowlist eligibility. Reject duplicate or ancestor/descendant targets, missing targets, additions overlapping replacement, and metadata/permission changes. Replace complete target objects. (5) Select a known deployment; disabled deployments/artifacts/launch profiles cannot execute. Validate the resolved scb/cde branch, selected target, exact Atlas revision when available, baseline release/control, and actual component versions without converting reports into course pins. WORKSPACE_ROOT is the actual Atlas checkout in scb mode and actual course checkout in cde mode; COURSE_ROOT exists only in cde mode. Resolve approved paths, reject unknown variables and boundary escapes, and do not assume HOME/Repos or a clone name. (6) Compose first, then intersect platform restrictions and applies_to. Missing applies_to means all otherwise applicable deployments. Within a selector, deployment_profile_ids, deployment_kinds, and session_types all match when supplied. Kind selectors include future course-added profiles of that deployment kind. required means required only when applicable; filtering is never authority to uninstall. Check all selector IDs, applicable dependency closure, capability coverage, product/source/provider/settings/environment/workflow/adapter references, version rules, source integrity, calendar dates, and conflicting settings/asset destinations before mutation. settings_profile_ids enumerate candidate profiles: unknown IDs are errors, but known settings excluded by target selection are skipped. Applicable bindings must not depend on filtered-out capabilities or course environments. Do not automatically downgrade to reproduce a reference machine. managed_latest refreshes only during an explicitly chosen update action. (7) Environment-bound packages use the selected course environment's own interpreter/package manager, never global pip or another course's directory. Reject cross-checkout shared environment paths and symlink escapes. (8) Validate release/architecture/workflow role/state/action/transition compatibility and bidirectional workflow authorization. Noninteractive workflows must not initiate browser/device login or write personal/global identity/editor settings; use approved runtime environment tokens without recording values. Exactly one enabled overall reference platform and linked overall reference deployment remain required. virtualization.reference_provider is independently scoped to VM launches and does not replace the overall reference designation. (9) Honor explicit Vagrant --provider and VAGRANT_DEFAULT_PROVIDER selection; prefer the configured default only when unspecified. Do not install a hypervisor automatically. Require a released compatible provider/architecture/box tuple. Acquire multipart boxes on the host before box import/VM creation: verify each part, contiguous unique sequence numbers and distinct URLs, reconstruct a complete .box, verify its final size/checksum, then import it. For binary concatenation part sizes sum to final size. Native Vagrant URL arrays are fallback downloads, not parts. Check extraction-tool requirements, available space, source-host/redirect boundaries, and GitHub's under-2-GiB asset limit. (10) Enabled launch profiles require implemented trusted adapters, existing Vagrantfile/devcontainer paths, qualified artifacts, and authorized repository access/funding under the existing student cost policy. Resolve launch URL owner/repository from the selected checkout, never an inherited template identity. vscode_web is editing-only and cannot establish runtime capability compliance. (11) GitHub enforces private faculty access for assigned faculty; JSON metadata does not grant access. Student publication exports a sanitized snapshot without faculty history, keeps only .faculty/README.md inside .faculty, removes source faculty/distribution metadata, and rewrites manifest/launch repository identity to the actual destination. Validate destination visibility and credentials externally. Structural validation cannot prove any of these semantic checks; unresolved conflicts are fatal, never file-order/last-writer-wins.",
   "type": "object",
   "oneOf": [
     {
@@ -82,6 +82,15 @@
         },
         "override_permissions": {
           "$ref": "#/$defs/overridePermissions"
+        },
+        "virtualization": {
+          "$ref": "#/$defs/virtualizationPolicy"
+        },
+        "box_artifacts": {
+          "$ref": "#/$defs/boxArtifactCatalog"
+        },
+        "launch_profiles": {
+          "$ref": "#/$defs/launchProfileCatalog"
         }
       },
       "required": [
@@ -146,6 +155,9 @@
         },
         "course_environments": {
           "$ref": "#/$defs/courseEnvironmentCatalog"
+        },
+        "student_distribution": {
+          "$ref": "#/$defs/studentDistribution"
         }
       },
       "required": [
@@ -157,105 +169,45 @@
         "additions",
         "overrides"
       ],
-      "description": "Required .config/cde_manifest.json in every STEM course repository. Set additions to {} and overrides to [] when the course uses only the SCB. Course-owned environments are optional and declared only when required by this course. JSON Schema defaults do not supply data."
+      "description": "Required .config/cde_manifest.json in every STEM course repository. Set additions to {} and overrides to [] when the course uses only the SCB. Course-owned environments are optional and declared only when required by this course. JSON Schema defaults do not supply data.",
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "student_distribution"
+            ]
+          },
+          "then": {
+            "properties": {
+              "course": {
+                "properties": {
+                  "repository_visibility": {
+                    "const": "private"
+                  },
+                  "repository_audience": {
+                    "const": "assigned_faculty"
+                  }
+                },
+                "required": [
+                  "repository_visibility",
+                  "repository_audience"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "resolvedConfiguration": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "schema_version": {
-          "$ref": "#/$defs/schemaVersion"
+      "oneOf": [
+        {
+          "$ref": "#/$defs/resolvedScbConfiguration"
         },
-        "manifest_type": {
-          "type": "string",
-          "const": "resolved"
-        },
-        "course": {
-          "$ref": "#/$defs/course"
-        },
-        "baseline": {
-          "$ref": "#/$defs/baselineReference"
-        },
-        "automation_release": {
-          "$ref": "#/$defs/semanticVersion"
-        },
-        "automation_release_date_time_group": {
-          "$ref": "#/$defs/versionDateTimeGroup"
-        },
-        "control": {
-          "$ref": "#/$defs/control"
-        },
-        "baseline_control": {
-          "$ref": "#/$defs/control"
-        },
-        "policy": {
-          "$ref": "#/$defs/policy"
-        },
-        "capabilities": {
-          "$ref": "#/$defs/capabilityCatalog"
-        },
-        "products": {
-          "$ref": "#/$defs/productCatalog"
-        },
-        "software_sources": {
-          "$ref": "#/$defs/softwareSourceCatalog"
-        },
-        "provider_profiles": {
-          "$ref": "#/$defs/providerProfileCatalog"
-        },
-        "platforms": {
-          "$ref": "#/$defs/platformCatalog"
-        },
-        "deployment_profiles": {
-          "$ref": "#/$defs/deploymentProfileCatalog"
-        },
-        "lifecycle_workflows": {
-          "$ref": "#/$defs/lifecycleWorkflowCatalog"
-        },
-        "managed_settings": {
-          "$ref": "#/$defs/managedSettingsCatalog"
-        },
-        "managed_assets": {
-          "$ref": "#/$defs/managedAssetCatalog"
-        },
-        "obsolete_components": {
-          "$ref": "#/$defs/obsoleteComponentCatalog"
-        },
-        "logging": {
-          "$ref": "#/$defs/logging"
-        },
-        "baseline_release": {
-          "$ref": "#/$defs/baselineIdentity"
-        },
-        "course_environments": {
-          "$ref": "#/$defs/courseEnvironmentCatalog"
+        {
+          "$ref": "#/$defs/resolvedCdeConfiguration"
         }
-      },
-      "required": [
-        "schema_version",
-        "manifest_type",
-        "course",
-        "baseline",
-        "automation_release",
-        "automation_release_date_time_group",
-        "control",
-        "baseline_control",
-        "policy",
-        "capabilities",
-        "products",
-        "software_sources",
-        "provider_profiles",
-        "platforms",
-        "deployment_profiles",
-        "lifecycle_workflows",
-        "managed_settings",
-        "managed_assets",
-        "obsolete_components",
-        "logging",
-        "baseline_release",
-        "course_environments"
       ],
-      "description": "In-memory complete CDE produced by the approved resolver. Validate explicitly against #/$defs/resolvedConfiguration before changing the environment. This is not a third input manifest or required repository file. control is the course record; baseline_control and baseline_release record the shared SCB actually read. The SCB supplies automation_release and its date-time group. Course environments come from the course manifest or an empty map. Recorded releases support diagnostics and do not impose equality or per-course SCB pins."
+      "description": "Explicit resolved SCB or CDE mode; validate this definition before any environment-changing action. This is not a third repository input file."
     },
     "baselineIdentity": {
       "type": "object",
@@ -320,6 +272,21 @@
           "maxLength": 100,
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
           "description": "Course repository name, without an owner, .git suffix, or directory path. Exposed to approved path templates as ${COURSE_REPOSITORY}. A student's clone may use a different directory name; COURSE_ROOT is resolved at runtime."
+        },
+        "repository_visibility": {
+          "enum": [
+            "private",
+            "public",
+            "internal"
+          ],
+          "description": "Declared repository visibility, externally verified by GitHub. This field grants no access."
+        },
+        "repository_audience": {
+          "enum": [
+            "assigned_faculty",
+            "students"
+          ],
+          "description": "Assigned faculty is an access restriction enforced by GitHub; student output must rewrite the repository identity and audience."
         }
       },
       "required": [
@@ -328,7 +295,57 @@
         "environment_name",
         "repository_name"
       ],
-      "description": "Course identity belongs in each course's .config/cde_manifest.json, never in the reusable SCB."
+      "description": "Course identity belongs in each course's .config/cde_manifest.json, never in the reusable SCB.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "repository_name": {
+                "pattern": "-faculty$"
+              }
+            },
+            "required": [
+              "repository_name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "repository_visibility": {
+                "const": "private"
+              },
+              "repository_audience": {
+                "const": "assigned_faculty"
+              }
+            },
+            "required": [
+              "repository_visibility",
+              "repository_audience"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "repository_audience": {
+                "const": "assigned_faculty"
+              }
+            },
+            "required": [
+              "repository_audience"
+            ]
+          },
+          "then": {
+            "properties": {
+              "repository_visibility": {
+                "const": "private"
+              }
+            },
+            "required": [
+              "repository_visibility"
+            ]
+          }
+        }
+      ]
     },
     "courseId": {
       "type": "string",
@@ -456,6 +473,26 @@
           },
           "additionalProperties": {
             "$ref": "#/$defs/platformExtension"
+          },
+          "minProperties": 1
+        },
+        "box_artifacts": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/boxArtifact"
+          },
+          "minProperties": 1
+        },
+        "launch_profiles": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/identifier"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/launchProfile"
           },
           "minProperties": 1
         }
@@ -753,6 +790,48 @@
             "target",
             "value"
           ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/box_artifacts/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/boxArtifact"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/launch_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+            },
+            "value": {
+              "$ref": "#/$defs/launchProfile"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
+        },
+        {
+          "properties": {
+            "target": {
+              "pattern": "^/virtualization$"
+            },
+            "value": {
+              "$ref": "#/$defs/virtualizationPolicy"
+            }
+          },
+          "required": [
+            "target",
+            "value"
+          ]
         }
       ]
     },
@@ -800,6 +879,15 @@
         },
         {
           "pattern": "^/logging$"
+        },
+        {
+          "pattern": "^/box_artifacts/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/launch_profiles/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+        },
+        {
+          "pattern": "^/virtualization$"
         }
       ],
       "description": "Exact JSON Pointer to an existing baseline catalog entry, platform package/binding, policy object, or logging object. Wildcards, array indexes, arbitrary leaf edits, metadata changes, and permission changes are unsupported. Replacement values are complete objects, not patches."
@@ -820,15 +908,15 @@
     },
     "schemaVersion": {
       "type": "string",
-      "const": "3.0",
-      "description": "Version 3.0 is a breaking replacement for the version 2.x single-course contract."
+      "const": "3.1",
+      "description": "Version 3.1 extends version 3.0 with deployment selection and launch/distribution contracts. Consumers must explicitly support 3.1 before any changing action. schema_version is independent of SCB/automation release metadata."
     },
     "pathTemplate": {
       "type": "string",
       "minLength": 1,
       "maxLength": 1024,
       "pattern": "^(?!.*(?:^|[/\\\\])\\.\\.(?:[/\\\\]|$))(?!.*\\$\\{(?:PASSWORD|TOKEN|SECRET|PRIVATE_KEY|EMAIL)\\}).+$",
-      "description": "Portable path template using variables permitted by policy.allowed_path_variables: ${HOME}, ${DESKTOP}, ${COURSE_REPOSITORY}, ${ATLAS_ROOT}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, and ${TEMP}. Resolve Atlas/course roots from actual selected checkouts. Semantic validation rejects unknown placeholders, expands approved variables, canonicalizes results, and confirms approved boundaries."
+      "description": "Portable path template using variables permitted by policy.allowed_path_variables: ${HOME}, ${DESKTOP}, ${COURSE_REPOSITORY}, ${ATLAS_ROOT}, ${COURSE_ROOT}, ${SCRIPT_ROOT}, ${LOG_DIR}, ${TEMP}, and ${WORKSPACE_ROOT}. Resolve Atlas/course roots from actual selected checkouts. Semantic validation rejects unknown placeholders, expands approved variables, canonicalizes results, and confirms approved boundaries."
     },
     "uriHttps": {
       "type": "string",
@@ -869,8 +957,7 @@
       "additionalProperties": false,
       "required": [
         "status",
-        "source_repository",
-        "source_revision"
+        "source_repository"
       ],
       "properties": {
         "status": {
@@ -893,7 +980,8 @@
         },
         "source_revision": {
           "type": "string",
-          "pattern": "^[0-9a-f]{40}$"
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "Actual provenance commit when known; mandatory for approved or deprecated manifests. A generated uncommitted draft omits this field instead of fabricating a new revision."
         },
         "change_summary": {
           "type": "string",
@@ -916,7 +1004,25 @@
           "then": {
             "required": [
               "effective_date",
-              "approval_record"
+              "approval_record",
+              "source_revision"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "deprecated"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "source_revision"
             ]
           }
         }
@@ -1098,9 +1204,10 @@
       "properties": {
         "course_root": {
           "$ref": "#/$defs/pathTemplate",
-          "description": "Portable discovery/default template for the course checkout. COURSE_ROOT must use the actual selected clone location; repository_name does not force a directory name or path.",
+          "description": "Legacy-named workspace discovery/default template. ${WORKSPACE_ROOT} selects the actual course checkout in cde mode or Atlas checkout in standalone scb mode. COURSE_ROOT is valid only in cde mode. Neither repository_name nor HOME forces a clone path.",
           "examples": [
-            "${HOME}/Repos/${COURSE_REPOSITORY}"
+            "${HOME}/Repos/${COURSE_REPOSITORY}",
+            "${WORKSPACE_ROOT}"
           ]
         },
         "script_root": {
@@ -1138,7 +1245,8 @@
               "LOG_DIR",
               "TEMP",
               "COURSE_REPOSITORY",
-              "ATLAS_ROOT"
+              "ATLAS_ROOT",
+              "WORKSPACE_ROOT"
             ]
           },
           "minItems": 7,
@@ -1276,6 +1384,9 @@
         "provider_profile_required": {
           "type": "boolean",
           "default": false
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
       }
     },
@@ -1444,7 +1555,9 @@
             "language_package_index",
             "ide_marketplace",
             "source_repository",
-            "direct_download"
+            "direct_download",
+            "hosted_service",
+            "release_assets"
           ],
           "description": "Distribution channel for concrete products. ide_marketplace refers to a particular IDE's extension marketplace."
         },
@@ -1498,7 +1611,8 @@
             "browser_device_flow",
             "browser_oauth",
             "external_cli_managed",
-            "none"
+            "none",
+            "environment_token"
           ]
         },
         "interactive": {
@@ -1509,7 +1623,8 @@
           "enum": [
             "provider_cli",
             "operating_system_credential_store",
-            "not_applicable"
+            "not_applicable",
+            "environment"
           ]
         },
         "required_scopes": {
@@ -1520,8 +1635,58 @@
         },
         "login_adapter_id": {
           "$ref": "#/$defs/adapterId"
+        },
+        "token_environment_variables": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "maxLength": 120
+          },
+          "description": "Approved environment variable NAMES only. Never include token values."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "method": {
+                "const": "environment_token"
+              }
+            },
+            "required": [
+              "method"
+            ]
+          },
+          "then": {
+            "properties": {
+              "interactive": {
+                "const": false
+              },
+              "secret_storage": {
+                "const": "environment"
+              }
+            },
+            "required": [
+              "token_environment_variables"
+            ],
+            "not": {
+              "required": [
+                "login_adapter_id"
+              ]
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "token_environment_variables"
+              ]
+            }
+          }
+        }
+      ]
     },
     "privacyIdentityRule": {
       "type": "object",
@@ -1783,6 +1948,9 @@
         },
         "verification": {
           "$ref": "#/$defs/verification"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
       },
       "description": "Platform support package that is not itself a Course Development Environment capability. Course Development Environment products must be represented under cde_bindings."
@@ -1832,7 +2000,8 @@
           "$ref": "#/$defs/identifier"
         },
         "settings_profile_ids": {
-          "$ref": "#/$defs/identifierList"
+          "$ref": "#/$defs/identifierList",
+          "description": "Known candidate settings profiles. Apply only those selected for this target; skip known inapplicable profiles. Unknown IDs are errors. This list does not make a setting applicable or bypass noninteractive workflow restrictions."
         },
         "dependencies": {
           "$ref": "#/$defs/identifierList"
@@ -1843,6 +2012,9 @@
         "environment_id": {
           "$ref": "#/$defs/identifier",
           "description": "ID in the course-owned environment catalog; required exactly for course_environment scope. Semantic validation resolves it before install or verification."
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
       },
       "allOf": [
@@ -2118,7 +2290,8 @@
             "remote_desktop",
             "headless",
             "terminal_only",
-            "other"
+            "other",
+            "browser_editor"
           ]
         },
         "os_release_id": {
@@ -2151,6 +2324,16 @@
         "allowed_workflow_ids": {
           "$ref": "#/$defs/identifierList",
           "description": "Lifecycle workflow identifiers authorized for this deployment profile."
+        },
+        "execution_context": {
+          "type": "string",
+          "enum": [
+            "local",
+            "hosted",
+            "codespaces",
+            "github_actions"
+          ],
+          "description": "Execution context, independent of physical deployment kind. For example Actions may use a VM, container, or self-hosted physical runner."
         }
       },
       "allOf": [
@@ -2259,7 +2442,8 @@
             "enum": [
               "local_user",
               "cvd_administrator",
-              "cvd_student"
+              "cvd_student",
+              "automation_service"
             ]
           },
           "minItems": 1,
@@ -2271,7 +2455,8 @@
             "local_unmanaged_environment",
             "provider_baseline_master",
             "course_master",
-            "initialized_environment"
+            "initialized_environment",
+            "uninitialized_runtime"
           ],
           "description": "Course-independent starting state. course_master replaces the legacy course-specific state name."
         },
@@ -2311,6 +2496,14 @@
         "notes": {
           "type": "string",
           "maxLength": 1000
+        },
+        "interaction_mode": {
+          "type": "string",
+          "enum": [
+            "interactive",
+            "noninteractive"
+          ],
+          "description": "Noninteractive automation must not prompt for browser/device login or write personal/global identity/editor settings. Adapters enforce this."
         }
       },
       "allOf": [
@@ -2445,8 +2638,10 @@
           "type": "string",
           "enum": [
             "system",
-            "user"
-          ]
+            "user",
+            "workspace"
+          ],
+          "description": "workspace targets versioned repository-local configuration/assets beneath the actual WORKSPACE_ROOT, including .vscode JSON. It is distinct from personal/global user settings and may be configured noninteractively by approved adapters. Resolve and canonicalize paths before writing/removing."
         },
         "settings_adapter_id": {
           "$ref": "#/$defs/adapterId"
@@ -2472,8 +2667,42 @@
         },
         "verification_adapter_id": {
           "$ref": "#/$defs/adapterId"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "workspace"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_path": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/pathTemplate"
+                  },
+                  {
+                    "pattern": "^\\$\\{WORKSPACE_ROOT\\}/[^/\\\\].*$"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "target_path"
+            ]
+          }
+        }
+      ]
     },
     "managedSettingsCatalog": {
       "type": "object",
@@ -2591,8 +2820,10 @@
           "type": "string",
           "enum": [
             "system",
-            "user"
-          ]
+            "user",
+            "workspace"
+          ],
+          "description": "workspace targets versioned repository-local configuration/assets beneath the actual WORKSPACE_ROOT, including .vscode JSON. It is distinct from personal/global user settings and may be configured noninteractively by approved adapters. Resolve and canonicalize paths before writing/removing."
         },
         "source_id": {
           "$ref": "#/$defs/identifier"
@@ -2636,8 +2867,42 @@
         "executable": {
           "type": "boolean",
           "default": false
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "workspace"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "destination": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/pathTemplate"
+                  },
+                  {
+                    "pattern": "^\\$\\{WORKSPACE_ROOT\\}/[^/\\\\].*$"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "destination"
+            ]
+          }
+        }
+      ]
     },
     "managedAssetCatalog": {
       "type": "object",
@@ -2668,8 +2933,10 @@
           "type": "string",
           "enum": [
             "system",
-            "user"
-          ]
+            "user",
+            "workspace"
+          ],
+          "description": "workspace targets versioned repository-local configuration/assets beneath the actual WORKSPACE_ROOT, including .vscode JSON. It is distinct from personal/global user settings and may be configured noninteractively by approved adapters. Resolve and canonicalize paths before writing/removing."
         },
         "target_path": {
           "$ref": "#/$defs/pathTemplate"
@@ -2692,8 +2959,42 @@
         },
         "safety_check_adapter_id": {
           "$ref": "#/$defs/adapterId"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scope": {
+                "const": "workspace"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "target_path": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/pathTemplate"
+                  },
+                  {
+                    "pattern": "^\\$\\{WORKSPACE_ROOT\\}/[^/\\\\].*$"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "target_path"
+            ]
+          }
+        }
+      ]
     },
     "obsoleteComponentCatalog": {
       "type": "object",
@@ -2727,9 +3028,13 @@
               "$ref": "#/$defs/pathTemplate"
             },
             {
-              "const": "${COURSE_ROOT}/logs"
+              "enum": [
+                "${COURSE_ROOT}/logs",
+                "${WORKSPACE_ROOT}/logs"
+              ]
             }
-          ]
+          ],
+          "description": "Workspace-local logs; standalone SCB mode uses WORKSPACE_ROOT."
         },
         "filename_template": {
           "type": "string",
@@ -2878,6 +3183,9 @@
         },
         "runtime_capability_id": {
           "$ref": "#/$defs/identifier"
+        },
+        "applies_to": {
+          "$ref": "#/$defs/deploymentApplicability"
         }
       },
       "required": [
@@ -2886,6 +3194,846 @@
         "runtime_capability_id"
       ],
       "description": "An isolated Python virtual environment owned by this course. Use a supported interpreter implementing runtime_capability_id and install/verify packages inside this environment. Its packages may differ from other courses without changing shared tools."
+    },
+    "deploymentApplicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "deployment_profile_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "deployment_kinds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "bare_metal",
+              "local_virtual_machine",
+              "hosted_virtual_desktop",
+              "cloud_virtual_machine",
+              "container",
+              "other"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "session_types": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "local_desktop",
+              "remote_desktop",
+              "headless",
+              "terminal_only",
+              "other",
+              "browser_editor"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [],
+      "description": "Deployment restriction evaluated after SCB/course composition. Provide at least one nonempty selector. When profile IDs, deployment kinds, or session types are supplied together, all supplied restrictions must match. All IDs must resolve, including planned disabled profiles. Kind selectors also include future course-added profiles of that kind. An omitted applies_to means all otherwise applicable deployments. Intersect with existing platform_ids; required is evaluated only after filtering. Exclusion is not an uninstall instruction.",
+      "anyOf": [
+        {
+          "required": [
+            "deployment_profile_ids"
+          ]
+        },
+        {
+          "required": [
+            "deployment_kinds"
+          ]
+        },
+        {
+          "required": [
+            "session_types"
+          ]
+        }
+      ]
+    },
+    "safeRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*(?:^|/)\\.(?:/|$))(?!.*[\\\\:\\x00-\\x1f]).+$",
+      "description": "Normalized repository-relative POSIX path. No absolute/drive/UNC paths, backslashes, dot segments, traversal, or control characters. Runtime canonicalization must still reject symlink escapes."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "providerName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "maxLength": 80
+    },
+    "githubRepositoryUri": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/uriHttps"
+        },
+        {
+          "pattern": "^https://github\\.com/[A-Za-z0-9][A-Za-z0-9-]*/[A-Za-z0-9][A-Za-z0-9._-]*/?$"
+        }
+      ]
+    },
+    "virtualizationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "default_provider": {
+          "$ref": "#/$defs/providerName"
+        },
+        "reference_provider": {
+          "$ref": "#/$defs/providerName"
+        },
+        "install_provider_automatically": {
+          "const": false
+        },
+        "provider_selection": {
+          "const": "vagrant_native"
+        },
+        "box_repository_source_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "default_provider",
+        "reference_provider",
+        "install_provider_automatically",
+        "provider_selection",
+        "box_repository_source_id"
+      ],
+      "description": "Host-side VM launch policy, independent of authenticated service provider_profiles. Honor --provider then VAGRANT_DEFAULT_PROVIDER, otherwise configure Vagrant to prefer default_provider. reference_provider is the qualified VM reference, not the overall SCB reference environment. No hypervisor is a mandatory automatically installed SCB component."
+    },
+    "boxPart": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "url": {
+          "$ref": "#/$defs/uriHttps"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "sequence",
+        "url",
+        "sha256",
+        "size_bytes"
+      ],
+      "description": "One ordered release asset, strictly below GitHub's 2-GiB per-asset limit. Runtime validation requires contiguous unique sequence numbers and distinct URLs."
+    },
+    "boxDistribution": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "single_file"
+            },
+            "url": {
+              "$ref": "#/$defs/uriHttps"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "size_bytes": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "kind",
+            "url",
+            "sha256",
+            "size_bytes"
+          ],
+          "description": "A URL yielding one complete Vagrant .box. Enforce hosting-source asset limits at runtime."
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "multipart"
+            },
+            "assembly": {
+              "enum": [
+                "binary_concatenation",
+                "seven_zip_volumes"
+              ]
+            },
+            "box_filename": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*\\.box$",
+              "maxLength": 240
+            },
+            "parts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/boxPart"
+              },
+              "minItems": 2,
+              "uniqueItems": true
+            },
+            "assembled_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "assembled_size_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "assembly_adapter_id": {
+              "$ref": "#/$defs/adapterId"
+            },
+            "requires_host_product_id": {
+              "$ref": "#/$defs/identifier"
+            }
+          },
+          "required": [
+            "kind",
+            "assembly",
+            "box_filename",
+            "parts",
+            "assembled_sha256",
+            "assembled_size_bytes",
+            "assembly_adapter_id"
+          ],
+          "description": "Custom host-side acquisition metadata, not native Vagrant catalog metadata. Download/verify parts, reconstruct and verify the complete .box before box import or VM startup. A guest provisioner is too late. For binary concatenation sizes must sum; for seven_zip_volumes verify the extracted box_filename and its checksum.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "assembly": {
+                    "const": "seven_zip_volumes"
+                  }
+                },
+                "required": [
+                  "assembly"
+                ]
+              },
+              "then": {
+                "required": [
+                  "requires_host_product_id"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "boxArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "display_name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "box_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*)?$",
+          "maxLength": 200
+        },
+        "provider_name": {
+          "$ref": "#/$defs/providerName"
+        },
+        "architecture": {
+          "enum": [
+            "amd64",
+            "arm64"
+          ]
+        },
+        "guest_deployment_profile_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "distribution": {
+          "$ref": "#/$defs/boxDistribution"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "display_name",
+        "enabled",
+        "box_name",
+        "provider_name",
+        "architecture",
+        "guest_deployment_profile_id",
+        "source_id"
+      ],
+      "description": "One provider/architecture-specific SCB or CDE box artifact. A disabled planned entry may omit unreleased version/distribution details; never invent release URLs or checksums. Enabled artifacts require qualified actual assets. Normalize Vagrant amd64 to platform x86_64 only in approved semantic validation.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "then": {
+            "required": [
+              "version",
+              "distribution"
+            ]
+          }
+        }
+      ]
+    },
+    "boxArtifactCatalog": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/boxArtifact"
+      }
+    },
+    "launchProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "display_name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "vagrant",
+            "codespaces",
+            "vscode_web"
+          ]
+        },
+        "runtime_available": {
+          "type": "boolean"
+        },
+        "repository_context": {
+          "const": "selected_checkout"
+        },
+        "deployment_profile_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "vagrantfile_path": {
+          "$ref": "#/$defs/safeRelativePath"
+        },
+        "box_artifact_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "devcontainer_path": {
+          "$ref": "#/$defs/safeRelativePath"
+        },
+        "launch_uri_template": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "configuration_paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/safeRelativePath"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "display_name",
+        "enabled",
+        "kind",
+        "runtime_available",
+        "repository_context"
+      ],
+      "description": "Repository-local entry point. Resolve {owner}/{repository} from the selected checkout using approved identity discovery, never inherited faculty/template identity. Enabled launchers require real implemented configuration/adapters and qualified runtime assets; structural schema alone cannot prove readiness. vscode_web has no runtime deployment and cannot claim full SCB/CDE verification.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "vagrant"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runtime_available": {
+                "const": true
+              }
+            },
+            "required": [
+              "deployment_profile_id",
+              "vagrantfile_path",
+              "box_artifact_ids"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "devcontainer_path"
+                  ]
+                },
+                {
+                  "required": [
+                    "launch_uri_template"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "codespaces"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runtime_available": {
+                "const": true
+              },
+              "launch_uri_template": {
+                "const": "https://codespaces.new/{owner}/{repository}"
+              }
+            },
+            "required": [
+              "deployment_profile_id",
+              "devcontainer_path",
+              "launch_uri_template"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "vagrantfile_path"
+                  ]
+                },
+                {
+                  "required": [
+                    "box_artifact_ids"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "vscode_web"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runtime_available": {
+                "const": false
+              },
+              "launch_uri_template": {
+                "const": "https://github.dev/{owner}/{repository}"
+              }
+            },
+            "required": [
+              "launch_uri_template"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "deployment_profile_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "vagrantfile_path"
+                  ]
+                },
+                {
+                  "required": [
+                    "box_artifact_ids"
+                  ]
+                },
+                {
+                  "required": [
+                    "devcontainer_path"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "launchProfileCatalog": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/identifier"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/launchProfile"
+      }
+    },
+    "studentDistribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "faculty_directory": {
+          "const": ".faculty"
+        },
+        "retained_faculty_paths": {
+          "const": [
+            ".faculty/README.md"
+          ]
+        },
+        "publish_mode": {
+          "const": "sanitized_snapshot"
+        },
+        "include_source_history": {
+          "const": false
+        },
+        "rewrite_repository_identity": {
+          "const": true
+        },
+        "destination_repository": {
+          "$ref": "#/$defs/githubRepositoryUri"
+        },
+        "workflow_path": {
+          "$ref": "#/$defs/safeRelativePath"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "enabled",
+        "faculty_directory",
+        "retained_faculty_paths",
+        "publish_mode",
+        "include_source_history",
+        "rewrite_repository_identity"
+      ],
+      "description": "Faculty-source distribution policy, not an SCB package requirement or implemented GitHub Action. Publish a sanitized student snapshot with only .faculty/README.md inside .faculty and without faculty Git history. Rewrite destination course identity/launch links, remove faculty-only access/distribution metadata, and externally verify destination access. Disabled plans may omit unpublished destination/workflow details.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "then": {
+            "required": [
+              "destination_repository",
+              "workflow_path"
+            ]
+          }
+        }
+      ]
+    },
+    "resolvedCdeConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "manifest_type": {
+          "type": "string",
+          "const": "resolved"
+        },
+        "course": {
+          "$ref": "#/$defs/course"
+        },
+        "baseline": {
+          "$ref": "#/$defs/baselineReference"
+        },
+        "automation_release": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "automation_release_date_time_group": {
+          "$ref": "#/$defs/versionDateTimeGroup"
+        },
+        "control": {
+          "$ref": "#/$defs/control"
+        },
+        "baseline_control": {
+          "$ref": "#/$defs/control"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilityCatalog"
+        },
+        "products": {
+          "$ref": "#/$defs/productCatalog"
+        },
+        "software_sources": {
+          "$ref": "#/$defs/softwareSourceCatalog"
+        },
+        "provider_profiles": {
+          "$ref": "#/$defs/providerProfileCatalog"
+        },
+        "platforms": {
+          "$ref": "#/$defs/platformCatalog"
+        },
+        "deployment_profiles": {
+          "$ref": "#/$defs/deploymentProfileCatalog"
+        },
+        "lifecycle_workflows": {
+          "$ref": "#/$defs/lifecycleWorkflowCatalog"
+        },
+        "managed_settings": {
+          "$ref": "#/$defs/managedSettingsCatalog"
+        },
+        "managed_assets": {
+          "$ref": "#/$defs/managedAssetCatalog"
+        },
+        "obsolete_components": {
+          "$ref": "#/$defs/obsoleteComponentCatalog"
+        },
+        "logging": {
+          "$ref": "#/$defs/logging"
+        },
+        "baseline_release": {
+          "$ref": "#/$defs/baselineIdentity"
+        },
+        "course_environments": {
+          "$ref": "#/$defs/courseEnvironmentCatalog"
+        },
+        "virtualization": {
+          "$ref": "#/$defs/virtualizationPolicy"
+        },
+        "box_artifacts": {
+          "$ref": "#/$defs/boxArtifactCatalog"
+        },
+        "launch_profiles": {
+          "$ref": "#/$defs/launchProfileCatalog"
+        },
+        "configuration_kind": {
+          "const": "cde"
+        },
+        "selected_deployment_profile_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "student_distribution": {
+          "$ref": "#/$defs/studentDistribution"
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_type",
+        "course",
+        "baseline",
+        "automation_release",
+        "automation_release_date_time_group",
+        "control",
+        "baseline_control",
+        "policy",
+        "capabilities",
+        "products",
+        "software_sources",
+        "provider_profiles",
+        "platforms",
+        "deployment_profiles",
+        "lifecycle_workflows",
+        "managed_settings",
+        "managed_assets",
+        "obsolete_components",
+        "logging",
+        "baseline_release",
+        "course_environments",
+        "configuration_kind",
+        "selected_deployment_profile_id"
+      ],
+      "description": "In-memory complete course CDE. Compose both required manifests before deployment filtering. control is course control, baseline_control/baseline_release record the actual SCB, and course_environments is the course declaration or {}. selected_deployment_profile_id records the target; semantic validation still checks enabled state, applicability, dependencies, and authorization.",
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "student_distribution"
+            ]
+          },
+          "then": {
+            "properties": {
+              "course": {
+                "properties": {
+                  "repository_visibility": {
+                    "const": "private"
+                  },
+                  "repository_audience": {
+                    "const": "assigned_faculty"
+                  }
+                },
+                "required": [
+                  "repository_visibility",
+                  "repository_audience"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "resolvedScbConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "manifest_type": {
+          "const": "resolved"
+        },
+        "baseline": {
+          "$ref": "#/$defs/baselineIdentity"
+        },
+        "automation_release": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "automation_release_date_time_group": {
+          "$ref": "#/$defs/versionDateTimeGroup"
+        },
+        "control": {
+          "$ref": "#/$defs/control"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilityCatalog"
+        },
+        "products": {
+          "$ref": "#/$defs/productCatalog"
+        },
+        "software_sources": {
+          "$ref": "#/$defs/softwareSourceCatalog"
+        },
+        "provider_profiles": {
+          "$ref": "#/$defs/providerProfileCatalog"
+        },
+        "platforms": {
+          "$ref": "#/$defs/platformCatalog"
+        },
+        "deployment_profiles": {
+          "$ref": "#/$defs/deploymentProfileCatalog"
+        },
+        "lifecycle_workflows": {
+          "$ref": "#/$defs/lifecycleWorkflowCatalog"
+        },
+        "managed_settings": {
+          "$ref": "#/$defs/managedSettingsCatalog"
+        },
+        "managed_assets": {
+          "$ref": "#/$defs/managedAssetCatalog"
+        },
+        "obsolete_components": {
+          "$ref": "#/$defs/obsoleteComponentCatalog"
+        },
+        "logging": {
+          "$ref": "#/$defs/logging"
+        },
+        "virtualization": {
+          "$ref": "#/$defs/virtualizationPolicy"
+        },
+        "box_artifacts": {
+          "$ref": "#/$defs/boxArtifactCatalog"
+        },
+        "launch_profiles": {
+          "$ref": "#/$defs/launchProfileCatalog"
+        },
+        "configuration_kind": {
+          "const": "scb"
+        },
+        "selected_deployment_profile_id": {
+          "$ref": "#/$defs/identifier"
+        }
+      },
+      "required": [
+        "schema_version",
+        "manifest_type",
+        "baseline",
+        "automation_release",
+        "automation_release_date_time_group",
+        "control",
+        "policy",
+        "capabilities",
+        "products",
+        "software_sources",
+        "provider_profiles",
+        "platforms",
+        "deployment_profiles",
+        "lifecycle_workflows",
+        "managed_settings",
+        "managed_assets",
+        "obsolete_components",
+        "logging",
+        "configuration_kind",
+        "selected_deployment_profile_id"
+      ],
+      "description": "In-memory standalone SCB target configuration. baseline is baselineIdentity and control is SCB control. No course identity, course baseline reference, or course environment catalog exists; no cde_manifest.json is required. WORKSPACE_ROOT is the selected Atlas checkout. Semantic validation selects only applicable components."
     }
   }
 }
