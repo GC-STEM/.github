@@ -2,19 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/GC-STEM/.github/refs/heads/main/schemas/manifest.schema.json",
   "title": "GC-STEM SOE and CSO Manifest",
-  "description": "Version 3.1 structural contract for the shared Standard Operating Environment (SOE) in atlas/.config/scb_manifest.json and the required .config/cde_manifest.json in every STEM course repository. The SOE establishes common capabilities, supported component requirements, sources, platforms, workflows, settings, and assets. Each CSO manifest identifies its course and explicitly declares additions, or an empty additions object. All courses consume the selected local Atlas checkout; no per-course baseline snapshot, exact SOE release, checksum pin, or identical software version across platforms is required. An IDE is a concrete software product within the complete CSO. Version 3.1 adds deployment-scoped requirements, standalone SOE resolution, noninteractive container/CI workflows, provider-neutral Vagrant launch policy, single-file and multipart box distribution, browser editing entry points, and private faculty-source/student-distribution metadata. New catalog members are optional for existing version 3.1 input shapes; JSON Schema defaults do not create data.",
-  "$comment": "Composition, target selection, launch readiness, authorization, and environment verification are automation responsibilities, not JSON Schema merge features. Canonical ownership remains GC-STEM/.github for the schema, GC-STEM/atlas for the SOE and shared automation, and the selected course for its required CSO file. Required resolver sequence: (1) Select explicit scb or cde mode and the actual Atlas/workspace checkouts. In scb mode read only the Atlas SOE; do not invent course identity or require a course manifest. In cde mode require and read both manifests, including a baseline-only course's CSO file. Reject duplicate JSON keys and unsupported schema versions; never execute manifest content. (2) Check approval/provenance under policy supplied by approved automation. A draft may omit source_revision; no generated draft is a released/approved configuration. A self-declared approval does not establish trust. Preserve compatible installed versions. Baseline releases are support metadata, not equality gates or per-course pins; validation does not fetch/update/switch Atlas. (3) Deep-copy SOE catalogs/policy/logging; add course entries by stable ID then platform_extensions. Duplicate existing IDs are conflicts even when identical. Arrays are atomic values, never implicit unions. Course virtualization policy changes require an existing baseline override permission; additions cannot authorize exceptions. (4) Overrides require matching named baseline permission, exact existing target, and course allowlist eligibility. Reject duplicate or ancestor/descendant targets, missing targets, additions overlapping replacement, and metadata/permission changes. Replace complete target objects. (5) Select a known deployment; disabled deployments/artifacts/launch profiles cannot execute. Validate the resolved scb/cde branch, selected target, exact Atlas revision when available, baseline release/control, and actual component versions without converting reports into course pins. WORKSPACE_ROOT is the actual Atlas checkout in scb mode and actual course checkout in cde mode; COURSE_ROOT exists only in cde mode. Resolve approved paths, reject unknown variables and boundary escapes, and do not assume HOME/Repos or a clone name. (6) Compose first, then intersect platform restrictions and applies_to. Missing applies_to means all otherwise applicable deployments. Within a selector, deployment_profile_ids, deployment_kinds, and session_types all match when supplied. Kind selectors include future course-added profiles of that deployment kind. required means required only when applicable; filtering is never authority to uninstall. Check all selector IDs, applicable dependency closure, capability coverage, product/source/provider/settings/environment/workflow/adapter references, version rules, source integrity, calendar dates, and conflicting settings/asset destinations before mutation. settings_profile_ids enumerate candidate profiles: unknown IDs are errors, but known settings excluded by target selection are skipped. Applicable bindings must not depend on filtered-out capabilities or course environments. Do not automatically downgrade to reproduce a reference machine. managed_latest refreshes only during an explicitly chosen update action. (7) Environment-bound packages use the selected course environment's own interpreter/package manager, never global pip or another course's directory. Reject cross-checkout shared environment paths and symlink escapes. (8) Validate release/architecture/workflow role/state/action/transition compatibility and bidirectional workflow authorization. Noninteractive workflows must not initiate browser/device login or write personal/global identity/editor settings; use approved runtime environment tokens without recording values. Exactly one enabled overall reference platform and linked overall reference deployment remain required. virtualization.reference_provider is independently scoped to VM launches and does not replace the overall reference designation. (9) Honor explicit Vagrant --provider and VAGRANT_DEFAULT_PROVIDER selection; prefer the configured default only when unspecified. Do not install a hypervisor automatically. Require a released compatible provider/architecture/box tuple. Acquire multipart boxes on the host before box import/VM creation: verify each part, contiguous unique sequence numbers and distinct URLs, reconstruct a complete .box, verify its final size/checksum, then import it. For binary concatenation part sizes sum to final size. Native Vagrant URL arrays are fallback downloads, not parts. Check extraction-tool requirements, available space, source-host/redirect boundaries, and GitHub's under-2-GiB asset limit. (10) Enabled launch profiles require implemented trusted adapters, existing Vagrantfile/devcontainer paths, qualified artifacts, and authorized repository access/funding under the existing student cost policy. Resolve launch URL owner/repository from the selected checkout, never an inherited template identity. vscode_web is editing-only and cannot establish runtime capability compliance. (11) GitHub enforces private faculty access for assigned faculty; JSON metadata does not grant access. Student publication exports a sanitized snapshot without faculty history, keeps only .faculty/README.md inside .faculty, removes source faculty/distribution metadata, and rewrites manifest/launch repository identity to the actual destination. Validate destination visibility and credentials externally. Structural validation cannot prove any of these semantic checks; unresolved conflicts are fatal, never file-order/last-writer-wins.",
+  "description": "Version 3.2 contract for the shared SOE in atlas/.config/soe_manifest.json and each course's .config/cso_manifest.json. Compose the SOE and course additions before deployment filtering. Courses consume the selected Atlas checkout; component requirements do not require identical versions across platforms or per-course baseline pins. Codespaces provides the headless emergency/faculty-verification deployment. JSON Schema defaults do not create data.",
+  "$comment": "Composition, target selection, launch readiness, authorization, and environment verification are automation responsibilities, not JSON Schema merge features. Canonical ownership remains GC-STEM/.github for the schema, GC-STEM/atlas for the SOE and shared automation, and the selected course for its required CSO file. Required resolver sequence: (1) Select explicit scb or cso mode and the actual Atlas/workspace checkouts. In soe mode read only the Atlas SOE; do not invent course identity or require a course manifest. In cso mode require and read both manifests, including a baseline-only course's CSO file. Reject duplicate JSON keys and unsupported schema versions; never execute manifest content. (2) Check approval/provenance under policy supplied by approved automation. A draft may omit source_revision; no generated draft is a released/approved configuration. A self-declared approval does not establish trust. Preserve compatible installed versions. Baseline releases are support metadata, not equality gates or per-course pins; validation does not fetch/update/switch Atlas. (3) Deep-copy SOE catalogs/policy/logging; add course entries by stable ID then platform_extensions. Duplicate existing IDs are conflicts even when identical. Arrays are atomic values, never implicit unions. Course virtualization policy changes require an existing baseline override permission; additions cannot authorize exceptions. (4) Overrides require matching named baseline permission, exact existing target, and course allowlist eligibility. Reject duplicate or ancestor/descendant targets, missing targets, additions overlapping replacement, and metadata/permission changes. Replace complete target objects. (5) Select a known deployment; disabled deployments/artifacts/launch profiles cannot execute. Validate the resolved soe/cso branch, selected target, exact Atlas revision when available, baseline release/control, and actual component versions without converting reports into course pins. WORKSPACE_ROOT is the actual Atlas checkout in soe mode and actual course checkout in cso mode; COURSE_ROOT exists only in cso mode. Resolve approved paths, reject unknown variables and boundary escapes, and do not assume HOME/Repos or a clone name. (6) Compose first, then intersect platform restrictions and applies_to. Missing applies_to means all otherwise applicable deployments. Within a selector, deployment_profile_ids, deployment_kinds, and session_types all match when supplied. Kind selectors include future course-added profiles of that deployment kind. required means required only when applicable; filtering is never authority to uninstall. Check all selector IDs, applicable dependency closure, capability coverage, product/source/provider/settings/environment/workflow/adapter references, version rules, source integrity, calendar dates, and conflicting settings/asset destinations before mutation. settings_profile_ids enumerate candidate profiles: unknown IDs are errors, but known settings excluded by target selection are skipped. Applicable bindings must not depend on filtered-out capabilities or course environments. Do not automatically downgrade to reproduce a reference machine. managed_latest refreshes only during an explicitly chosen update action. (7) Environment-bound packages use the selected course environment's own interpreter/package manager, never global pip or another course's directory. Reject cross-checkout shared environment paths and symlink escapes. (8) Validate release/architecture/workflow role/state/action/transition compatibility and bidirectional workflow authorization. Noninteractive workflows must not initiate browser/device login or write personal/global identity/editor settings; use approved runtime environment tokens without recording values. Exactly one enabled overall reference platform and linked overall reference deployment remain required. virtualization.reference_provider is independently scoped to VM launches and does not replace the overall reference designation. (9) Honor explicit Vagrant --provider and VAGRANT_DEFAULT_PROVIDER selection; prefer the configured default only when unspecified. Do not install a hypervisor automatically. Require a released compatible provider/architecture/box tuple. Acquire multipart boxes on the host before box import/VM creation: verify each part, contiguous unique sequence numbers and distinct URLs, reconstruct a complete .box, verify its final size/checksum, then import it. For binary concatenation part sizes sum to final size. Native Vagrant URL arrays are fallback downloads, not parts. Check extraction-tool requirements, available space, source-host/redirect boundaries, and GitHub's under-2-GiB asset limit. (10) Enabled launch profiles require implemented trusted adapters, existing Vagrantfile/devcontainer paths, qualified artifacts, and authorized repository access/funding under the existing student cost policy. Resolve launch URL owner/repository from the selected checkout, never an inherited template identity. vscode_web is editing-only and cannot establish runtime capability compliance. (11) GitHub enforces private faculty access for assigned faculty; JSON metadata does not grant access. Student publication exports a sanitized snapshot without faculty history, keeps only .faculty/README.md inside .faculty, removes source faculty/distribution metadata, and rewrites manifest/launch repository identity to the actual destination. Validate destination visibility and credentials externally. Structural validation cannot prove any of these semantic checks; unresolved conflicts are fatal, never file-order/last-writer-wins.",
   "type": "object",
   "oneOf": [
     {
-      "$ref": "#/$defs/scbManifest"
+      "$ref": "#/$defs/soeManifest"
     },
     {
       "$ref": "#/$defs/courseManifest"
     }
   ],
   "$defs": {
-    "scbManifest": {
+    "soeManifest": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -30,7 +30,7 @@
         },
         "manifest_type": {
           "type": "string",
-          "const": "scb"
+          "const": "soe"
         },
         "baseline": {
           "$ref": "#/$defs/baselineIdentity"
@@ -114,7 +114,7 @@
         "logging",
         "override_permissions"
       ],
-      "description": "Shared SOE stored only in the selected Atlas checkout at .config/scb_manifest.json. It has no course identity or parent baseline. Its data selects common capabilities and compatible component requirements, without imposing identical machine versions."
+      "description": "Shared SOE stored only in the selected Atlas checkout at .config/soe_manifest.json. It has no course identity or parent baseline. Its data selects common capabilities and compatible component requirements, without imposing identical machine versions."
     },
     "courseManifest": {
       "type": "object",
@@ -169,7 +169,7 @@
         "additions",
         "overrides"
       ],
-      "description": "Required .config/cde_manifest.json in every STEM course repository. Set additions to {} and overrides to [] when the course uses only the SOE. Course-owned environments are optional and declared only when required by this course. JSON Schema defaults do not supply data.",
+      "description": "Required .config/cso_manifest.json in every STEM course repository. Set additions to {} and overrides to [] when the course uses only the SOE. Course-owned environments are optional and declared only when required by this course. JSON Schema defaults do not supply data.",
       "allOf": [
         {
           "if": {
@@ -201,10 +201,10 @@
     "resolvedConfiguration": {
       "oneOf": [
         {
-          "$ref": "#/$defs/resolvedScbConfiguration"
+          "$ref": "#/$defs/resolvedSoeConfiguration"
         },
         {
-          "$ref": "#/$defs/resolvedCdeConfiguration"
+          "$ref": "#/$defs/resolvedCsoConfiguration"
         }
       ],
       "description": "Explicit resolved SOE or CSO mode; validate this definition before any environment-changing action. This is not a third repository input file."
@@ -238,7 +238,7 @@
       "properties": {
         "path": {
           "type": "string",
-          "const": "${ATLAS_ROOT}/.config/scb_manifest.json",
+          "const": "${ATLAS_ROOT}/.config/soe_manifest.json",
           "description": "Shared SOE in the selected local Atlas checkout. Resolve ATLAS_ROOT from setup configuration or the selected checkout, not from a guessed home/sibling path. Validation does not fetch or update Atlas."
         },
         "baseline_id": {
@@ -295,7 +295,7 @@
         "environment_name",
         "repository_name"
       ],
-      "description": "Course identity belongs in each course's .config/cde_manifest.json, never in the reusable SOE.",
+      "description": "Course identity belongs in each course's .config/cso_manifest.json, never in the reusable SOE.",
       "allOf": [
         {
           "if": {
@@ -513,13 +513,13 @@
           },
           "minProperties": 1
         },
-        "cde_bindings": {
+        "capability_bindings": {
           "type": "object",
           "propertyNames": {
             "$ref": "#/$defs/identifier"
           },
           "additionalProperties": {
-            "$ref": "#/$defs/cdeBinding"
+            "$ref": "#/$defs/capabilityBinding"
           },
           "minProperties": 1
         }
@@ -752,10 +752,10 @@
         {
           "properties": {
             "target": {
-              "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/cde_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+              "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/capability_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
             },
             "value": {
-              "$ref": "#/$defs/cdeBinding"
+              "$ref": "#/$defs/capabilityBinding"
             }
           },
           "required": [
@@ -872,7 +872,7 @@
           "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/os_packages/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
         },
         {
-          "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/cde_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
+          "pattern": "^/platforms/[a-z][a-z0-9]*(?:_[a-z0-9]+)*/capability_bindings/[a-z][a-z0-9]*(?:_[a-z0-9]+)*$"
         },
         {
           "pattern": "^/policy$"
@@ -908,8 +908,8 @@
     },
     "schemaVersion": {
       "type": "string",
-      "const": "3.1",
-      "description": "Version 3.1 extends version 3.0 with deployment selection and launch/distribution contracts. Consumers must explicitly support 3.1 before any changing action. schema_version is independent of SOE/automation release metadata."
+      "const": "3.2",
+      "description": "Version 3.2 uses SOE/CSO terminology and canonical manifest paths. Consumers must explicitly support 3.2 before any changing action. Legacy SCB/CDE/CSE shapes require an explicit migration; they are not aliases."
     },
     "pathTemplate": {
       "type": "string",
@@ -1204,7 +1204,7 @@
       "properties": {
         "course_root": {
           "$ref": "#/$defs/pathTemplate",
-          "description": "Legacy-named workspace discovery/default template. ${WORKSPACE_ROOT} selects the actual course checkout in cde mode or Atlas checkout in standalone scb mode. COURSE_ROOT is valid only in cde mode. Neither repository_name nor HOME forces a clone path.",
+          "description": "Legacy-named workspace discovery/default template. ${WORKSPACE_ROOT} selects the actual course checkout in cso mode or Atlas checkout in standalone soe mode. COURSE_ROOT is valid only in cso mode. Neither repository_name nor HOME forces a clone path.",
           "examples": [
             "${HOME}/Repos/${COURSE_REPOSITORY}",
             "${WORKSPACE_ROOT}"
@@ -1953,9 +1953,9 @@
           "$ref": "#/$defs/deploymentApplicability"
         }
       },
-      "description": "Platform support package that is not itself a Course-specific overlay capability. Course-specific overlay products must be represented under cde_bindings."
+      "description": "Platform support package that is not itself a Course-specific overlay capability. Course-specific overlay products must be represented under capability_bindings."
     },
-    "cdeBinding": {
+    "capabilityBinding": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -2084,13 +2084,13 @@
       ],
       "description": "Platform-specific product implementation of a capability. Compatible installed versions may differ across platforms. package_identifier selects the installation recipe when installation is needed; it does not require replacing an already approved compatible runtime distributed under another package identifier. course_environment targets a declared per-course environment; python_venv_package requires that scope and must install/verify with the named virtual environment's interpreter instead of global pip."
     },
-    "cdeBindings": {
+    "capabilityBindings": {
       "type": "object",
       "propertyNames": {
         "$ref": "#/$defs/identifier"
       },
       "additionalProperties": {
-        "$ref": "#/$defs/cdeBinding"
+        "$ref": "#/$defs/capabilityBinding"
       },
       "description": "Concrete product bindings for capabilities in a Course-specific overlay (CSO). Keep operating-system support packages in os_packages. Semantic validation checks required capabilities against the final enabled platform and deployment configuration."
     },
@@ -2107,7 +2107,7 @@
         "script",
         "package_manager",
         "os_packages",
-        "cde_bindings"
+        "capability_bindings"
       ],
       "properties": {
         "display_name": {
@@ -2213,8 +2213,8 @@
           },
           "description": "Operating-system-specific prerequisites and support utilities. Do not list official Course-specific overlay products here."
         },
-        "cde_bindings": {
-          "$ref": "#/$defs/cdeBindings"
+        "capability_bindings": {
+          "$ref": "#/$defs/capabilityBindings"
         },
         "restart_policy_id": {
           "$ref": "#/$defs/identifier"
@@ -3792,7 +3792,7 @@
         }
       ]
     },
-    "resolvedCdeConfiguration": {
+    "resolvedCsoConfiguration": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -3873,7 +3873,7 @@
           "$ref": "#/$defs/launchProfileCatalog"
         },
         "configuration_kind": {
-          "const": "cde"
+          "const": "cso"
         },
         "selected_deployment_profile_id": {
           "$ref": "#/$defs/identifier"
@@ -3937,7 +3937,7 @@
         }
       ]
     },
-    "resolvedScbConfiguration": {
+    "resolvedSoeConfiguration": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -4005,7 +4005,7 @@
           "$ref": "#/$defs/launchProfileCatalog"
         },
         "configuration_kind": {
-          "const": "scb"
+          "const": "soe"
         },
         "selected_deployment_profile_id": {
           "$ref": "#/$defs/identifier"
@@ -4033,7 +4033,7 @@
         "configuration_kind",
         "selected_deployment_profile_id"
       ],
-      "description": "In-memory standalone SOE target configuration. baseline is baselineIdentity and control is SOE control. No course identity, course baseline reference, or course environment catalog exists; no cde_manifest.json is required. WORKSPACE_ROOT is the selected Atlas checkout. Semantic validation selects only applicable components."
+      "description": "In-memory standalone SOE target configuration. baseline is baselineIdentity and control is SOE control. No course identity, course baseline reference, or course environment catalog exists; no cso_manifest.json is required. WORKSPACE_ROOT is the selected Atlas checkout. Semantic validation selects only applicable components."
     }
   }
 }
