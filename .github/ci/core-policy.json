@@ -1,8 +1,5 @@
 {
   "required_files": [
-    ".editorconfig",
-    ".gitattributes",
-    ".gitignore",
     "ACCESSIBILITY.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
