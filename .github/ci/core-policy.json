@@ -1,6 +1,7 @@
 {
   "required_files": [
     "ACCESSIBILITY.md",
+    "AGENTS.md",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE",
