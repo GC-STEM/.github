@@ -141,9 +141,6 @@ and invocation. Consult automation instructions for changes under
 
 ## Formatting and completion
 
-- Follow [`.gitattributes`](../.gitattributes) and
-  [`.editorconfig`](../.editorconfig). JSON currently uses LF; preserve the
-  applicable Markdown settings. Avoid unrelated reformatting or EOL changes.
 - Preserve the tested course-submission policy when changing any
   course-bound output. Validate final artifacts separately when applicable.
 - Update affected descriptions, examples, fixtures, documentation, and

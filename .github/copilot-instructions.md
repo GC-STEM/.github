@@ -72,10 +72,6 @@ when information is incomplete, outdated, or conflicting.
 
 ## Formatting and submission compatibility
 
-- Follow the current [.gitattributes](../.gitattributes) and
-  [.editorconfig](../.editorconfig). Currently, Markdown, Python, and
-  PowerShell use CRLF; JSON, YAML, and Unix shell scripts use LF.
-  Preserve binary files and avoid unrelated reformatting.
 - GC-STEM's course-submission EOL requirements are based on institutional
   testing with Brightspace and Turnitin. Preserve that tested policy and
   its file-specific exceptions.

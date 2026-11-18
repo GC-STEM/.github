@@ -96,10 +96,6 @@ Follow [CONTRIBUTING.md](CONTRIBUTING.md),
 
 ## Formatting and automation safeguards
 
-- Follow [.gitattributes](.gitattributes) and
-  [.editorconfig](.editorconfig). Currently, Markdown, Python, and PowerShell
-  use CRLF; JSON, YAML, and Unix shell scripts use LF.
-  Preserve binary files and avoid unrelated reformatting.
 - Preserve GC-STEM's tested Brightspace and Turnitin submission policy.
   Infrastructure EOL migration is separately scoped work.
   Changes to course-bound output require checking final artifacts against
