@@ -1,301 +1,260 @@
-# GC-STEM Repository Licensing Decision Questionnaire
+# **GC-STEM Repository Licensing Decision Questionnaire**
 
-## Licensing Goals and Permitted Uses
+**Purpose:** Identify licensing requirements for the two primary types of GC-STEM repositories (Shared and Course) before selecting licenses for approval by SNHU General Counsel.
 
-1. Who should be permitted to use GC-STEM materials?
+The questionnaire distinguishes between:
 
-   - [ ] Current SNHU students and adjuncts
-   - [ ] SNHU staff and contractors
-   - [ ] SNHU alumni
-   - [ ] Former employees
-   - [ ] Other educational institutions
-   - [ ] Nonprofit organizations
-   - [ ] Commercial organizations and employers
-   - [ ] General public
-   - [ ] Undecided — requires further discussion
+- **Permissive licenses:** Allow broad reuse, including proprietary and commercial applications.
+- **Copyleft licenses:** Require certain distributed modifications or derivative software to retain specified licensing terms.
+- **Content licenses:** Address the reuse and adaptation of documentation and educational materials.
+- **Restricted-use licenses:** Limit users, purposes, redistribution, or other permissions and may require custom language.
 
-2. Should commercial use be permitted?
+Restrictions based on SNHU affiliation, course completion, educational use, or noncommercial software use generally cannot be satisfied by an unmodified standard open-source software license. Selecting those requirements would help identify where customized licensing may be necessary.
 
-   - [ ] Yes, without additional restrictions
-   - [ ] Yes, with prior SNHU approval
-   - [ ] No, restrict use to noncommercial purposes
-   - [ ] Different policies for shared and course repositories
-   - [ ] Undecided — requires further discussion
+**Instructions:** Select the answer that best reflects SNHU's intended licensing policy. Each question addresses a requirement that differentiates one license from another. Select **Undecided** where further discussion is needed.
 
-3. Should users be permitted to modify and redistribute GC-STEM materials?
+## Part I — Shared Repositories
 
-   - [ ] Yes, including incorporation into proprietary products
-   - [ ] Yes, provided redistributed derivatives remain open source
-   - [ ] Yes, for noncommercial purposes only unless prior SNHU approval is obtained
-   - [ ] Modification permitted, but redistribution restricted
-   - [ ] Different policies for shared and course repositories
-   - [ ] Undecided — requires further discussion
+Repositories containing reusable software, libraries, development environments, automation scripts, configurations, and supporting documentation. These repositories support multiple programs and courses and may accept contributions from students, faculty, and external developers.
 
-4. What attribution should be required?
+1. Who should be granted permission to use shared software?
 
-   - [ ] Retain SNHU copyright notices
-   - [ ] Retain original license notices
-   - [ ] Identify GC-STEM as the original source
-   - [ ] Acknowledge individual contributors where applicable
-   - [ ] Identify significant modifications to original materials
-   - [ ] No additional attribution requirements beyond the selected license
-   - [ ] Undecided — requires further discussion
+    Select one
 
-5. Should students retain usage rights after leaving SNHU?
+    - [ ] Anyone, including the general public
 
-   - [ ] Yes, indefinitely
-   - [ ] Yes, for personal and professional use only
-   - [ ] Yes, for completed coursework and portfolios only
-   - [ ] No, where legally permissible
-   - [ ] Different policies based on the type of material
-   - [ ] Undecided — requires further discussion
+    - [ ] Educational institutions and their students and employees
 
-## Intellectual Property and Contributions
+    - [ ] Current and former SNHU students and employees
 
-6. Whose copyright ownership arrangements need to be confirmed with General Counsel?
+    - [ ] Current SNHU students and employees only
 
-   - [ ] Full-time faculty
-   - [ ] Adjunct faculty
-   - [ ] Other SNHU employees
-   - [ ] Independent contractors
-   - [ ] Students
-   - [ ] External contributors
-   - [ ] AI-assisted content developers
-   - [ ] Undecided — requires further discussion
+    - [ ] Others with prior SNHU approval
 
-7. What rights should students retain over their original contributions and completed coursework?
+    - [ ] Undecided — requires further discussion
 
-   - [ ] Copyright ownership of their original contributions
-   - [ ] Personal use
-   - [ ] Academic use
-   - [ ] Professional portfolio use
-   - [ ] Use in future employment
-   - [ ] Commercial use
-   - [ ] Modification and redistribution, subject to underlying license terms
-   - [ ] Undecided — requires further discussion
+2. Should commercial use of shared software be permitted?
 
-8. What rights should contributors grant SNHU when contributing to shared repositories?
+Select one
 
-   - [ ] Perpetual use
-   - [ ] Royalty-free use
-   - [ ] Modification
-   - [ ] Redistribution
-   - [ ] Commercial use
-   - [ ] Sublicensing
-   - [ ] Relicensing
-   - [ ] Copyright assignment to SNHU
-   - [ ] Undecided — requires further discussion
+    - [ ] Yes, including incorporation into commercial products and services
 
-9. How should contributors formally grant rights to SNHU?
+    - [ ] Yes, but only with prior SNHU approval
 
-   - [ ] Under the repository's existing license without a separate agreement
-   - [ ] Developer Certificate of Origin (DCO)
-   - [ ] Contributor License Agreement (CLA)
-   - [ ] Copyright assignment agreement
-   - [ ] Different requirements based on contributor or contribution type
-   - [ ] Undecided — requires further discussion
+    - [ ] No, restrict use to noncommercial purposes
 
-10. How should individual contributors be recognized?
+    - [ ] Undecided — requires further discussion
 
-   - [ ] Git commit and contribution history
-   - [ ] Repository contributor list
-   - [ ] Copyright notices where appropriate
-   - [ ] Acknowledgments in documentation
-   - [ ] Formal institutional recognition
-   - [ ] No additional recognition requirements
-   - [ ] Undecided — requires further discussion
+3. Should users be permitted to modify and redistribute shared software?
 
-## Shared Repositories and Reusable Software
+Select one
 
-11. How freely should others be permitted to reuse shared software?
+    - [ ] Yes, both modification and redistribution
 
-   - [ ] Unrestricted reuse subject to a standard permissive license
-   - [ ] Reuse subject to copyleft requirements
-   - [ ] Educational and noncommercial reuse only
-   - [ ] Reuse limited to the SNHU community
-   - [ ] Case-by-case permission
-   - [ ] Undecided — requires further discussion
+    - [ ] Yes, modification but not redistribution
 
-12. Should improvements to shared software be made publicly available?
+    - [ ] Yes, modification and redistribution for noncommercial purposes only
 
-   - [ ] Encouraged but not required
-   - [ ] Required when modified software is redistributed, consistent with the selected copyleft license
-   - [ ] Required for qualifying network-hosted use under an applicable license
-   - [ ] No institutional preference
-   - [ ] Undecided — requires further discussion
+    - [ ] Only with prior SNHU approval
 
-13. Should the software license include explicit patent provisions?
+    - [ ] Undecided — requires further discussion
 
-   - [ ] Yes, including an express patent grant
-   - [ ] Yes, including a patent retaliation or termination provision
-   - [ ] No explicit patent provisions required
-   - [ ] Defer to General Counsel
-   - [ ] Undecided — requires further discussion
+4. When should users be required to make their modifications available as source code?
 
-14. What requirements should govern third-party software and dependencies?
+Select one
 
-   - [ ] Require license compatibility reviews
-   - [ ] Maintain third-party license and attribution notices
-   - [ ] Prefer permissively licensed dependencies
-   - [ ] Allow copyleft dependencies when compatible
-   - [ ] Allow proprietary dependencies when appropriately licensed
-   - [ ] Require a Software Bill of Materials (SBOM), where practical
-   - [ ] Require approval for licensing exceptions
-   - [ ] Undecided — requires further discussion
+    - [ ] Never; users may keep modifications proprietary
 
-## Course Repositories and Student Assignments
+    - [ ] When distributing modified versions of covered source files
 
-15. What rights should students receive for university-provided starter projects?
+    - [ ] When distributing covered derivative software as a whole
 
-   - [ ] Copy and clone starter projects
-   - [ ] Execute and test starter code
-   - [ ] Modify and extend starter code
-   - [ ] Retain copies after completing the course
-   - [ ] Reuse starter code in subsequent courses
-   - [ ] Reuse starter code professionally
-   - [ ] Redistribute starter code subject to its license
-   - [ ] Undecided — requires further discussion
+    - [ ] When distributing covered derivative software or providing qualifying modified software as a network service
 
-16. When should students be permitted to publish completed coursework?
+    - [ ] Undecided — requires further discussion
 
-   - [ ] At any time
-   - [ ] After completing the activity
-   - [ ] After completing the course
-   - [ ] After completing their degree program
-   - [ ] Only for designated portfolio projects
-   - [ ] Only with prior SNHU approval
-   - [ ] Never, except where existing license rights permit publication
-   - [ ] Undecided — requires further discussion
+5. What attribution and notice requirements should apply?
 
-17. Should other educational institutions be permitted to reuse GC-STEM course materials?
+Select one
 
-   - [ ] Yes, including modification and commercial reuse
-   - [ ] Yes, for noncommercial educational use
-   - [ ] Yes, with prior SNHU approval
-   - [ ] No, retain exclusive institutional rights
-   - [ ] Different policies for different categories of course materials
-   - [ ] Undecided — requires further discussion
+    - [ ] Preserve existing copyright and license notices
 
-18. Which course repository materials should be considered for separate licensing or distribution restrictions?
+    - [ ] Preserve copyright and license notices and identify significant modifications
 
-   - [ ] Starter source code
-   - [ ] Assignment instructions
-   - [ ] Instructional documentation
-   - [ ] Diagrams and multimedia
-   - [ ] Datasets
-   - [ ] AI instructions, agents, and skills
-   - [ ] Student-facing tests
-   - [ ] Hidden grading tests
-   - [ ] Grading rubrics
-   - [ ] Reference implementations and answer keys
-   - [ ] Faculty-only resources
-   - [ ] Undecided — requires further discussion
+    - [ ] No mandatory attribution or preservation of copyright notices beyond applicable law
 
-19. How should student-created repositories be licensed?
+    - [ ] Undecided — requires further discussion
 
-   - [ ] Retain the applicable upstream license for inherited material and allow compatible licenses for original contributions
-   - [ ] Retain the upstream license for inherited material and recommend the same license for student contributions
-   - [ ] Require the same license for original contributions where appropriate and agreed
-   - [ ] Allow students to retain all rights to their original contributions while respecting upstream licenses
-   - [ ] Establish separate requirements for coursework and portfolio repositories
-   - [ ] Undecided — requires further discussion
+6. Should the license explicitly address patent rights?
 
-## Licensing Implementation and Governance
+Select one
 
-20. At what level should licensing be standardized?
+    - [ ] No explicit patent grant or patent termination provisions required
 
-   - [ ] One license across the entire GC-STEM ecosystem
-   - [ ] One standard license per repository type
-   - [ ] Separate licenses for software and educational content
-   - [ ] A small set of standardized licensing configurations with approved exceptions
-   - [ ] Case-by-case licensing for each repository
-   - [ ] Undecided — requires further discussion
+    - [ ] Include an explicit patent grant
 
-21. Should standard license language be modified?
+    - [ ] Include an explicit patent grant and patent termination provisions for specified patent litigation
 
-   - [ ] Use established licenses without modification
-   - [ ] Use established licenses with separate institutional policies
-   - [ ] Adapt established licenses when institutional requirements cannot otherwise be met
-   - [ ] Develop a custom SNHU educational-use license
-   - [ ] Undecided — requires further discussion
+    - [ ] Undecided — requires further discussion
 
-22. How should AI-related uses of GC-STEM materials be addressed?
+7. How should supporting technical documentation be licensed?
 
-   - [ ] Permit AI-assisted development
-   - [ ] Permit AI-assisted tutoring and code explanation
-   - [ ] Permit automated code and documentation analysis
-   - [ ] Permit AI model training
-   - [ ] Permit commercial AI model training
-   - [ ] Restrict disclosure of protected materials to external AI services
-   - [ ] Address academic AI use through separate course policies
-   - [ ] Address AI access through separate technical controls where appropriate
-   - [ ] Undecided — requires further discussion
+Select one
 
-23. Which institutional protections should be addressed separately from copyright licensing?
+    - [ ] Under the same license as the associated software
 
-   - [ ] SNHU trademarks and logos
-   - [ ] GC-STEM branding
-   - [ ] Implied institutional endorsement
-   - [ ] Student privacy and personally identifiable information (PII)
-   - [ ] Academic integrity
-   - [ ] Confidential and faculty-only materials
-   - [ ] Warranty and liability concerns
-   - [ ] Institutional reputation
-   - [ ] Undecided — requires further discussion
+    - [ ] Under a separate license permitting unrestricted reuse and adaptation with attribution
 
-24. How should licensing compliance be governed?
+    - [ ] Under a separate license requiring redistributed adaptations to use the same license
 
-   - [ ] General Counsel approves standard licensing configurations
-   - [ ] STEM leadership owns licensing policy
-   - [ ] Repository maintainers implement approved licenses
-   - [ ] Automated CI/CD checks verify required license files and notices
-   - [ ] Periodic licensing compliance reviews
-   - [ ] Formal approval process for exceptions
-   - [ ] Documented third-party contribution procedures
-   - [ ] Undecided — requires further discussion
+    - [ ] Under a separate license restricting commercial reuse
 
-25. How should future licensing changes be managed?
+    - [ ] Retain copyright and grant only specific permissions
 
-   - [ ] Recognize rights previously granted under existing licenses
-   - [ ] Require General Counsel approval for licensing changes
-   - [ ] Notify affected contributors
-   - [ ] Obtain additional contributor permissions when legally necessary
-   - [ ] Apply revised licenses prospectively where appropriate
-   - [ ] Maintain a history of licensing changes
-   - [ ] Periodically review licensing requirements
-   - [ ] Undecided — requires further discussion
+    - [ ] Undecided — requires further discussion
 
-## Preliminary License Preferences
+## Part II — Course Repositories
 
-26. Which software licenses should be evaluated for shared repositories?
+Repositories containing course-specific starter projects, source code, assignment instructions, instructional materials, tests, and other resources students use to complete coursework.
 
-   - [ ] MIT License
-   - [ ] Apache License 2.0
-   - [ ] BSD 3-Clause License
-   - [ ] Mozilla Public License 2.0 (MPL)
-   - [ ] GNU General Public License 3.0 (GPL)
-   - [ ] GNU Affero General Public License 3.0 (AGPL)
-   - [ ] Custom SNHU license
-   - [ ] Undecided — requires further discussion
+1. Who should be granted permission to use course materials?
 
-27. Which licensing approaches should be evaluated for educational and instructional content?
+Select one
 
-   - [ ] Creative Commons Attribution 4.0 (CC BY)
-   - [ ] Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA)
-   - [ ] Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC)
-   - [ ] Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA)
-   - [ ] Custom SNHU educational-use license
-   - [ ] All rights reserved
-   - [ ] Undecided — requires further discussion
+    - [ ] Anyone, including the general public
 
-28. What overall licensing strategy should GC-STEM pursue?
+    - [ ] Educational institutions and their students and employees
 
-   - [ ] Fully open-source software and open educational resources
-   - [ ] Open-source software with restricted educational content
-   - [ ] Open-source shared repositories with restricted course repositories
-   - [ ] Noncommercial educational-use licensing across the ecosystem
-   - [ ] Restricted institutional licensing across the ecosystem
-   - [ ] Hybrid approach based on content type and instructional purpose
-   - [ ] Undecided — requires further discussion
+    - [ ] Current and former SNHU students and employees
 
-Additional considerations:
+    - [ ] Current SNHU students and employees only
+
+    - [ ] Others with prior SNHU approval
+
+    - [ ] Undecided — requires further discussion
+
+2. Should other organizations be permitted to use GC-STEM course materials commercially?
+
+Select one
+
+    - [ ] Yes, including incorporation into commercially offered courses and training programs
+
+    - [ ] Yes, but only with prior SNHU approval
+
+    - [ ] No, restrict use to noncommercial purposes
+
+    - [ ] Undecided — requires further discussion
+
+3. Should other organizations be permitted to modify and redistribute instructional and assessment materials?
+
+Select one
+
+    - [ ] Yes, without restrictions beyond attribution and license requirements
+
+    - [ ] Yes, provided redistributed adaptations use the same license
+
+    - [ ] Yes, for noncommercial purposes without a share-alike requirement
+
+    - [ ] Yes, for noncommercial purposes with a share-alike requirement
+
+    - [ ] Permit redistribution of unmodified materials only
+
+    - [ ] No, except with prior SNHU approval
+
+    - [ ] Undecided — requires further discussion
+
+4. How should university-provided starter code be licensed?
+
+Select one
+
+    - [ ] Permit unrestricted use, modification, and redistribution, including proprietary and commercial use
+
+    - [ ] Permit use, modification, and redistribution, subject to copyleft requirements
+
+    - [ ] Permit use, modification, and redistribution for noncommercial purposes only
+
+    - [ ] Permit use and modification for coursework but restrict redistribution
+
+    - [ ] Permit use and modification for coursework and designated portfolio projects but otherwise restrict redistribution
+
+    - [ ] Undecided — requires further discussion
+
+5. What continuing permissions should students have to use university-provided starter code after completing a course?
+
+Select one
+
+    - [ ] Unrestricted personal, academic, professional, and commercial use
+
+    - [ ] Personal, academic, and professional use, but no commercial use
+
+    - [ ] Personal learning and professional portfolio use only
+
+    - [ ] Use in subsequent SNHU coursework only
+
+    - [ ] No additional permissions without prior SNHU approval
+
+    - [ ] Undecided — requires further discussion
+
+6. Under what conditions should the license permit students to publicly redistribute university-provided starter code as part of completed projects?
+
+Select one
+
+    - [ ] Without additional restrictions beyond the applicable license terms
+
+    - [ ] After completing the associated course
+
+    - [ ] After completing their degree program
+
+    - [ ] Only for designated portfolio projects
+
+    - [ ] Only with prior SNHU approval
+
+    - [ ] No permission to publicly redistribute university-provided code
+
+      - [ ] Undecided — requires further discussion
+
+7. What licensing restrictions should apply to student-authored code when distributed with university-provided starter code?
+
+Select one
+
+    - [ ] No additional restrictions; students may select a license for their original work while respecting the upstream license
+
+    - [ ] Require modifications to covered source files to remain under the applicable upstream license when distributed
+
+    - [ ] Require covered derivative software to remain under the applicable upstream license when distributed
+
+    - [ ] Restrict redistribution of projects containing university-provided code without SNHU permission
+
+    - [ ] Undecided — requires further discussion
+
+8. What attribution and notice requirements should apply to course materials?
+
+Select one
+
+    - [ ] Preserve existing copyright and license notices
+
+    - [ ] Preserve copyright and license notices and identify significant modifications
+
+    - [ ] Require attribution to SNHU or GC-STEM in redistributed instructional materials
+
+    - [ ] No mandatory attribution beyond applicable law
+
+    - [ ] Undecided — requires further discussion
+
+9. Should different categories of course materials receive different copyright permissions?
+
+Select one
+
+    - [ ] No; apply the same licensing permissions throughout the course repository
+
+    - [ ] Yes; distinguish software from instructional and assessment materials
+
+    - [ ] Yes; distinguish reusable software and instructional materials from protected assessment materials
+
+    - [ ] Yes; distinguish portfolio projects from other coursework
+
+    - [ ] Yes; establish separate permissions for software, instructional materials, assessments, and portfolio projects
+
+    - [ ] Undecided — requires further discussion
+
+## Additional Licensing Requirements
