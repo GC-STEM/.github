@@ -21,7 +21,7 @@ Repositories containing reusable software, libraries, development environments, 
 
     Select one
 
-    - [ ] Anyone, including the general public
+    - [x] Anyone, including the general public
 
     - [ ] Educational institutions and their students and employees
 
@@ -35,11 +35,11 @@ Repositories containing reusable software, libraries, development environments, 
 
 2. Should commercial use of shared software be permitted?
 
-Select one
+    Select one.
 
     - [ ] Yes, including incorporation into commercial products and services
 
-    - [ ] Yes, but only with prior SNHU approval
+    - [x] Yes, but only with prior SNHU approval
 
     - [ ] No, restrict use to noncommercial purposes
 
@@ -47,7 +47,7 @@ Select one
 
 3. Should users be permitted to modify and redistribute shared software?
 
-Select one
+    Select one.
 
     - [ ] Yes, both modification and redistribution
 
@@ -61,7 +61,7 @@ Select one
 
 4. When should users be required to make their modifications available as source code?
 
-Select one
+    Select one.
 
     - [ ] Never; users may keep modifications proprietary
 
@@ -75,11 +75,11 @@ Select one
 
 5. What attribution and notice requirements should apply?
 
-Select one
+    Select one.
 
     - [ ] Preserve existing copyright and license notices
 
-    - [ ] Preserve copyright and license notices and identify significant modifications
+    - [x] Preserve copyright and license notices and identify significant modifications
 
     - [ ] No mandatory attribution or preservation of copyright notices beyond applicable law
 
@@ -87,9 +87,9 @@ Select one
 
 6. Should the license explicitly address patent rights?
 
-Select one
+    Select one.
 
-    - [ ] No explicit patent grant or patent termination provisions required
+    - [x] No explicit patent grant or patent termination provisions required
 
     - [ ] Include an explicit patent grant
 
@@ -99,9 +99,9 @@ Select one
 
 7. How should supporting technical documentation be licensed?
 
-Select one
+    Select one.
 
-    - [ ] Under the same license as the associated software
+    - [x] Under the same license as the associated software
 
     - [ ] Under a separate license permitting unrestricted reuse and adaptation with attribution
 
@@ -119,7 +119,7 @@ Repositories containing course-specific starter projects, source code, assignmen
 
 1. Who should be granted permission to use course materials?
 
-Select one
+    Select one.
 
     - [ ] Anyone, including the general public
 
@@ -135,7 +135,7 @@ Select one
 
 2. Should other organizations be permitted to use GC-STEM course materials commercially?
 
-Select one
+    Select one.
 
     - [ ] Yes, including incorporation into commercially offered courses and training programs
 
@@ -147,7 +147,7 @@ Select one
 
 3. Should other organizations be permitted to modify and redistribute instructional and assessment materials?
 
-Select one
+    Select one.
 
     - [ ] Yes, without restrictions beyond attribution and license requirements
 
@@ -165,7 +165,7 @@ Select one
 
 4. How should university-provided starter code be licensed?
 
-Select one
+    Select one.
 
     - [ ] Permit unrestricted use, modification, and redistribution, including proprietary and commercial use
 
@@ -181,7 +181,7 @@ Select one
 
 5. What continuing permissions should students have to use university-provided starter code after completing a course?
 
-Select one
+    Select one.
 
     - [ ] Unrestricted personal, academic, professional, and commercial use
 
@@ -197,7 +197,7 @@ Select one
 
 6. Under what conditions should the license permit students to publicly redistribute university-provided starter code as part of completed projects?
 
-Select one
+    Select one.
 
     - [ ] Without additional restrictions beyond the applicable license terms
 
@@ -215,7 +215,7 @@ Select one
 
 7. What licensing restrictions should apply to student-authored code when distributed with university-provided starter code?
 
-Select one
+    Select one.
 
     - [ ] No additional restrictions; students may select a license for their original work while respecting the upstream license
 
@@ -229,7 +229,7 @@ Select one
 
 8. What attribution and notice requirements should apply to course materials?
 
-Select one
+    Select one.
 
     - [ ] Preserve existing copyright and license notices
 
@@ -243,7 +243,7 @@ Select one
 
 9. Should different categories of course materials receive different copyright permissions?
 
-Select one
+    Select one.
 
     - [ ] No; apply the same licensing permissions throughout the course repository
 
